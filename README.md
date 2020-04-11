@@ -9,12 +9,12 @@
 * Fabian Ramirez
 * Brian Emmons
 
-## API’s
+## API’s / Other Technologies Used
 
 * Geolocation
 * Google Maps
 * Petfinder
-* Wing CSS (alternative CSS framework)
+* Wing CSS (alternative CSS framework) *maybe*
 
 ## Basic Function
 
@@ -31,5 +31,4 @@ Our app takes the user’s location either by a geolocation API or by user input
 
 ## Sketch / Wireframe
 
-![Wireframe](Untitled Diagram.png)
-
+![Wireframe](/Project1/wireframe.png)
