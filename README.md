@@ -14,7 +14,7 @@
 * Geolocation
 * Google Maps
 * Petfinder
-* Wing CSS (alternative CSS framework) *maybe*
+* Wing CSS (alternative CSS) *maybe*
 
 ## Basic Function
 
@@ -32,3 +32,19 @@ Our app takes the user’s location either by a geolocation API or by user input
 ## Sketch / Wireframe
 
 ![Wireframe](images/wireframe.png)
+
+## Initial Tasks
+
+* Develop project idea
+* Create Wireframe Sketch (basic outline, will revise later)
+* Figure out how our API's work
+* Learn how to collaborate efficiently via Github (work flow and progress board)
+* Potentially learn Wing CSS
+* Pseudocode the key components of application
+* Divide those coding tasks and responsibilities between team members
+* Build the front end
+* Make the design responsive
+
+## Pseudocode
+
+PSEUDOCODE GOES HERE
