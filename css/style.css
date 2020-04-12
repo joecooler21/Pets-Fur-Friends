@@ -2,11 +2,11 @@
 
 .container {
     margin: 15px;
-    text-align: left;
+    text-align: right;
 }
 
 button {
-    margin-top: 15px;
+    margin-top: 0px;
 
 }
 
@@ -21,4 +21,20 @@ img {
 
 #map-area {
     text-align: center;
+    height: 100%;
+    width: 100%;
 }
+
+#map {
+    height: 100%;
+    width: 100%;
+    padding-bottom: 0px;
+  }
+
+  html, body {
+      height: 100%;
+  }
+
+  #img-container {
+      margin-top: 150px;
+  }
