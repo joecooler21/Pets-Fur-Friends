@@ -38,3 +38,18 @@ img {
   #img-container {
       margin-top: 150px;
   }
+
+  #pics{
+      margin:80px;
+      text-align: center;
+  }
+
+  #page{
+      display: flex;
+      margin: 0 auto;
+      width: auto;
+      height: 60px;
+      justify-content: center;
+      background-color: aqua;
+      opacity: inherit;
+  }
