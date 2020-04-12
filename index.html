@@ -1,15 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-  <title>Document</title>
+  <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="css/style.css" <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js">
+  </script>
+  <title>Pets Fur Friends</title>
 </head>
 <body>
   <nav class="navbar navbar-light bg-light">
-    <a class="navbar-brand">Navbar</a>
+    <a class="navbar-brand">Pets Fur Friends</a>
     <form class="form-inline">
       <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
       <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
@@ -18,17 +22,68 @@
   <div class="container">
     <div class="row">
       <div class="col col-lg-6 col-md-6 col-sm-6">
-    <form>
-      <div class="form-group">
-        <label for="formGroupExampleInput">Example label</label>
-        <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Example input">
+        <form>
+          <div class="form-group">
+            <label for="search-by">Search By</label>
+            <select id="search-by">
+              <option value="Option 1">Location</option>
+              <option value="Option 2">Option 2</option>
+              <option value="Option 3">Option 3</option>
+              <option value="Option 4">Option 4</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="filter-by">Filter By</label>
+            <select id="filter-by">
+              <option value="Option 1">Type</option>
+              <option value="Option 2">Option 2</option>
+              <option value="Option 3">Option 3</option>
+              <option value="Option 4">Option 4</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="limit-results">Limit Results</label>
+            <select id="limit-results">
+              <option value="Option 1">10</option>
+              <option value="Option 2">Option 2</option>
+              <option value="Option 3">Option 3</option>
+              <option value="Option 4">Option 4</option>
+            </select>
+            <button type="button">Submit</button>
+          </div>
       </div>
-      <div class="form-group">
-        <label for="formGroupExampleInput2">Another label</label>
-        <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Another input">
-        <button type="button">Submit</button>
+      </form>
+      <div class="col col-lg-6 col-md-6 col-sm-6">
+        <div id="map-area">
+          <h3 id="location">Location goes here</h3>
+          <img src="https://via.placeholder.com/200">
+          <br>
+          <button type="button">Click to see shelters in your area</button>
+          <br>
+        </div>
       </div>
     </div>
+  </div>
+  <hr>
+  <div class="container" id="img-container"></div>
+  <div class="row">
+    <div class="col col-lg-2.4 col-md-2.4 col-sm-2.4">
+      <img src="https://via.placeholder.com/200">
+      <img src="https://via.placeholder.com/200">
+      <img src="https://via.placeholder.com/200">
+      <img src="https://via.placeholder.com/200">
+      <img src="https://via.placeholder.com/200">
+    </div>
+  </div>
+  <div class="row">
+    <div class="col col-lg-2.4 col-md-2.4 col-sm-2.4">
+      <img src="https://via.placeholder.com/200">
+      <img src="https://via.placeholder.com/200">
+      <img src="https://via.placeholder.com/200">
+      <img src="https://via.placeholder.com/200">
+      <img src="https://via.placeholder.com/200">
+    </div>
+  </div>
     </form>
     <div class="col col-lg-6 col-md-6 col-sm-6">
       <h3 id="location">Location goes here</h3>
@@ -43,5 +98,4 @@
     <div class="footer-copyright text-center py-3">Footer</div>
   </footer>
 </body>
-
 </html>
