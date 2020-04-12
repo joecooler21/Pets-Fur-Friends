@@ -9,8 +9,10 @@
   <link rel="stylesheet" href="css/style.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js">
   </script>
+  <script src="javascript/app.js"></script>
   <title>Pets Fur Friends</title>
 </head>
+
 <body>
   <nav class="navbar navbar-light bg-light">
     <a class="navbar-brand">Pets Fur Friends</a>
@@ -21,7 +23,7 @@
   </nav>
   <div class="container">
     <div class="row">
-      <div class="col col-lg-6 col-md-6 col-sm-6">
+      <div class="col col-lg-3 col-md-3 col-sm-3">
         <form>
           <div class="form-group">
             <label for="search-by">Search By</label>
@@ -53,18 +55,22 @@
           </div>
       </div>
       </form>
-      <div class="col col-lg-6 col-md-6 col-sm-6">
+      <div class="col col-lg-9 col-md-9 col-sm-9">
         <div id="map-area">
           <h3 id="location">Location goes here</h3>
-          <img src="https://via.placeholder.com/200">
+          <div id="map">
+            <script src="https://maps.googleapis.com/maps/api/js?key=&callback=initMap"
+    async defer></script>
+            
+          </div>
           <br>
           <button type="button">Click to see shelters in your area</button>
           <br>
+          <hr>
         </div>
       </div>
     </div>
   </div>
-  <hr>
   <div class="container" id="img-container"></div>
   <div class="row">
     <div class="col col-lg-2.4 col-md-2.4 col-sm-2.4">
@@ -84,9 +90,13 @@
       <img src="https://via.placeholder.com/200">
     </div>
   </div>
-    </form>
-<footer class="page-footer font-small blue">
+  </form>
+  <footer class="page-footer font-small blue">
     <div class="footer-copyright text-center py-3">Footer</div>
   </footer>
+  
+
+  
 </body>
+
 </html>
