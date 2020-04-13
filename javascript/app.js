@@ -87,10 +87,16 @@ function initMap() {
                 lng: position.coords.longitude
             };
 
-            infoWindow.setPosition(pos);
+            /* infoWindow.setPosition(pos);
             infoWindow.setContent('Location found.');
-            infoWindow.open(map);
+            infoWindow.open(map); */
             map.setCenter(pos);
+            var marker = new google.maps.Marker({
+                position: pos,
+                map: map,
+                title: "You are here"
+            });
+           
         }, function () {
             handleLocationError(true, infoWindow, map.getCenter());
         });
@@ -106,6 +112,25 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
         'Error: The Geolocation service failed.' :
         'Error: Your browser doesn\'t support geolocation.');
     infoWindow.open(map);
+}
+
+function setMarker (address) {
+    var url = "https://maps.googleapis.com/maps/api/geocode/json?address=" + address + "&key=AIzaSyBc7c_SM6teDzFusELkTEd6P35pCsWjMd8";
+    var request = new XMLHttpRequest();
+    request.addEventListener("load", function () {
+        // response needs to be formatted for use
+        var obj = JSON.parse(this.responseText);
+        // get address lat & lng coordinates
+        var coords = obj.results[0].geometry.location;
+        map.setCenter(coords);
+        var marker = new google.maps.Marker({
+            position: coords,
+            map: map,
+            title: "Information Text"
+        });
+    });
+    request.open("GET", url);
+    request.send();
 }
 
 
