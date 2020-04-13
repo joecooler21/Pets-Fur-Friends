@@ -53,3 +53,11 @@ img {
       background-color: aqua;
       opacity: inherit;
   }
+
+
+  img{
+  object-fit: cover;
+  object-position: 100% 0;
+  width: 200px;
+  height: 200px;
+}

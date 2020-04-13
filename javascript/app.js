@@ -51,7 +51,7 @@ function getAnimals(){
   console.log('pets', data);
 var results = data.animals.length
 for (var i = 0; i < results; i++){
-var picturetag = (data.animals[i].photos[0]?.small || "https://via.placeholder.com/150")
+var picturetag = (data.animals[i].photos[0]?.large || "https://via.placeholder.com/150")
 pics.append('<img src="' + picturetag + '"/>')
 }
 console.log(results)
