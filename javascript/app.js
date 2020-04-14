@@ -6,12 +6,14 @@ var submit = document.getElementById("submit");
 var APIKey = "XlBR3viVn8RGIGcXwVQc7sYBJPFg1PwnPeLNVO9eXBty1nYguo";
 var secret = "zgMOcpFX72jNbDYwW7WWY1WPrvnuouonOXjXGBfc";
 var queryURL = "https://api.petfinder.com/v2/oauth2/token";
-var state = 'WI';
+var city = '53402';
 var status = 'adoptable'; 
 var coat = ''
 var type = ''
 var page = 1
 var pics = $("#pics");
+var orgs = []
+var pets = []
 
 area.addEventListener("click", function () {
     // code for area button goes here
@@ -21,66 +23,108 @@ submit.addEventListener("click", function () {
     // code for submit button goes here
 });
 
-function getAnimals(){
-      
+function  getOrg(){
     fetch('https://api.petfinder.com/v2/oauth2/token', {
-  method: 'POST',
-  body: 'grant_type=client_credentials&client_id=' + APIKey + '&client_secret=' + secret,
-  headers: {
-      'Content-Type': 'application/x-www-form-urlencoded'
+    method: 'POST',
+    body: 'grant_type=client_credentials&client_id=' + APIKey + '&client_secret=' + secret,
+    headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+    }
+  }).then(function (resp) {
+  
+    // Return the response as JSON
+    return resp.json();
+  
+  }).then(function (data) {
+    // console logs token as json, then the api call happens
+  console.log('token', data)
+  
+   return fetch('https://api.petfinder.com/v2/organizations?location=' + city, {
+        headers: {
+            'Authorization': data.token_type + ' ' + data.access_token ,
+            'Content-Type': 'application/x-www-form-urlencoded'
+        }
+      });
+    }).then(function (resp) {
+  
+    // Return the API response as JSON and sets orgs to the response, returns it
+    orgs = resp.json();
+    return orgs
+  
+  }).then(function (data) {
+  
+    // Log the pet data
+    console.log('orgs', data);
+  
+  }).catch(function (err) {
+  
+    // Log any errors
+    console.log('something went wrong', err);
+  
+  });
+  
   }
-}).then(function (resp) {
-
-  // Return the response as JSON
-  return resp.json();
-
-}).then(function (data) {
-
-
-
-  // Log the API data
-  console.log('token', data);
-
-  // Return a second API call
-  // This one uses the token we received for authentication
-  return fetch('https://api.petfinder.com/v2/animals?location=' + state + '&status=' + status + '&coat=' + coat + '&type=' + type + '&page=' + page, {
+  
+  // Adds function that makes API call to return Animals object as json object
+  function  getAnimals(){
+        
+      fetch('https://api.petfinder.com/v2/oauth2/token', {
+      method: 'POST',
+      body: 'grant_type=client_credentials&client_id=' + APIKey + '&client_secret=' + secret,
       headers: {
-          'Authorization': data.token_type + ' ' + data.access_token,
           'Content-Type': 'application/x-www-form-urlencoded'
       }
-  });
-
-}).then(function (resp) {
-
-  // Return the API response as JSON
-  return resp.json();
-
-}).then(function (data) {
-
-  // Log the pet data
-  console.log('pets', data);
-var results = data.animals.length
-for (var i = 0; i < results; i++){
-var picturetag = (data.animals[i].photos[0]?.large || "https://via.placeholder.com/150")
-pics.append('<img src="' + picturetag + '"/>')
-}
-console.log(results)
-}).catch(function (err) {
-
-  // Log any errors
-  console.log('something went wrong', err);
-
-});
-
-}
-
-getAnimals()
-
-$("#page").on("click", function(){
-page++
-pics.html("")
-getAnimals()
-})
+    }).then(function (resp) {
+    
+      // Return the response as JSON
+      return resp.json();
+    
+    }).then(function (data) {
+    
+    // makes api call with search parameters
+     return fetch('https://api.petfinder.com/v2/animals?location=' + city + '&limit=18', {
+          headers: {
+              'Authorization': data.token_type + ' ' + data.access_token ,
+              'Content-Type': 'application/x-www-form-urlencoded'
+          }
+        });
+      }).then(function (resp) {
+    
+      // Return the API response as JSON
+      pets = resp.json();
+      return pets
+    
+    }).then(function (data) {
+    
+      // Log the pet data
+      console.log('pets', data);
+      
+    var results = data.animals.length
+    for (var i = 0; i < results; i++){
+    var picturetag = (data.animals[i].photos[0]?.large || "https://via.placeholder.com/150")
+    pics.append('<img src="' + picturetag + '"/>')
+  
+    }
+    console.log(results)
+    
+    }).catch(function (err) {
+    
+      // Log any errors
+      console.log('something went wrong', err);
+    
+    });
+    
+    }
+  // calls both functions
+  getOrg();
+  getAnimals();
+  
+  // this button increases the page number and displays new set of pets
+  $("#page").on("click", function(){
+  page++
+  pics.html("")
+  getAnimals()
+  })
 
 function initMap() {
     map = new google.maps.Map(document.getElementById('map'), {
