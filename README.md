@@ -98,7 +98,7 @@ Our app takes the user’s location either by a geolocation API or by user input
 <!— STEP FOUR: PRESENTATION —>
 
 <!— 1. establish the purpose of our application —>
-<!— eg: what problem does our app solve? how does our app allieviate this problem? —>
+<!— eg: what problem does our app solve? how does our app alleviate this problem? —>
 
 <!— 2. give a 10 minute presentation on the functionality of app —>
 <!— eg: technologies used / what’s under the hood and how it works —>
