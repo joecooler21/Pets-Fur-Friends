@@ -111,6 +111,4 @@ Our app takes the user’s location either by a geolocation API or by user input
 
 //===================================================================================//
 
-
 ## Screenshots / Misc
-
