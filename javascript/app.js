@@ -1,6 +1,8 @@
 
 
 var map, infoWindow;
+var area = document.getElementById("area-shelters");
+var submit = document.getElementById("submit");
 var APIKey = "XlBR3viVn8RGIGcXwVQc7sYBJPFg1PwnPeLNVO9eXBty1nYguo";
 var secret = "zgMOcpFX72jNbDYwW7WWY1WPrvnuouonOXjXGBfc";
 var queryURL = "https://api.petfinder.com/v2/oauth2/token";
@@ -9,7 +11,15 @@ var status = 'adoptable';
 var coat = ''
 var type = ''
 var page = 1
-var pics = $("#pics")
+var pics = $("#pics");
+
+area.addEventListener("click", function () {
+    // code for area button goes here
+});
+
+submit.addEventListener("click", function () {
+    // code for submit button goes here
+});
 
 function getAnimals(){
       
