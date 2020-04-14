@@ -47,6 +47,7 @@ Our app takes the user’s location either by a geolocation API or by user input
 
 ## Pseudocode
 
+```html
 <!— PSEUDOCODE FOR PROJECT 01 —>
 
 <!— STEP ONE: SET THE VARIABLES —>
@@ -110,5 +111,6 @@ Our app takes the user’s location either by a geolocation API or by user input
 <!— 5. Profit! —>
 
 //===================================================================================//
+```
 
 ## Screenshots / Misc
