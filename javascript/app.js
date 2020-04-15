@@ -32,10 +32,9 @@ area.addEventListener("click", function () {
             .then((data) => {
                 city = data.results[0].address_components[6].long_name;
                 console.log(data);
-            });
+            }).then(getOrg()).then((func) => {console.log(orgs)});
     });
   }
-  console.log(getOrg());
 });
 
 submit.addEventListener("click", function () {
