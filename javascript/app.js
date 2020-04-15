@@ -6,7 +6,7 @@ var submit = document.getElementById("submit");
 var APIKey = "XlBR3viVn8RGIGcXwVQc7sYBJPFg1PwnPeLNVO9eXBty1nYguo";
 var secret = "zgMOcpFX72jNbDYwW7WWY1WPrvnuouonOXjXGBfc";
 var queryURL = "https://api.petfinder.com/v2/oauth2/token";
-var city = "Janesville, WI";
+var city = "Chicago, IL";
 var status = 'adoptable';
 var coat = ''
 var type = ''
@@ -25,27 +25,24 @@ area.addEventListener("click", function () {
       };
       // get user location based on coordinates
       var url = "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + pos.lat + "," + pos.lng + "&key=AIzaSyBc7c_SM6teDzFusELkTEd6P35pCsWjMd8";
-      var request = new XMLHttpRequest();
-      request.addEventListener("load", function () {
-        var obj = JSON.parse(this.responseText);
-        // this is users zip code
-        city = obj.results[0].address_components[6].long_name;
-        console.log(obj);
-        console.log("current location = " + city);
-        
-      });
-
-      request.open("GET", url);
-      request.send();
+      fetch(url)
+            .then((response) => {
+                return response.json();
+            })
+            .then((data) => {
+                city = data.results[0].address_components[6].long_name;
+                console.log(data);
+            });
     });
   }
+  console.log(getOrg());
 });
 
 submit.addEventListener("click", function () {
   // code for submit button goes here
 });
 
-async function getOrg() {
+function getOrg() {
   fetch('https://api.petfinder.com/v2/oauth2/token', {
     method: 'POST',
     body: 'grant_type=client_credentials&client_id=' + APIKey + '&client_secret=' + secret,
@@ -55,7 +52,8 @@ async function getOrg() {
   }).then(function (resp) {
 
     // Return the response as JSON
-    return resp.json();
+    orgs = resp.json();
+    return orgs;
 
   }).then(function (data) {
     // console logs token as json, then the api call happens
@@ -70,21 +68,21 @@ async function getOrg() {
   }).then(function (resp) {
 
     // Return the API response as JSON and sets orgs to the response, returns it
-    orgs = resp.json();
-    return orgs;
+    return (resp.json());
 
   }).then(function (data) {
 
     // Log the pet data
-    console.log('orgs', data);
     orgs = data.organizations;
+    console.log('orgs', data);
+    
 
   }).catch(function (err) {
 
     // Log any errors
     console.log('something went wrong', err);
 
-  });
+  })
 
 }
 
@@ -139,7 +137,7 @@ function getAnimals() {
 
 }
 // calls both functions
-getOrg();
+//getOrg();
 getAnimals();
 
 // this button increases the page number and displays new set of pets
