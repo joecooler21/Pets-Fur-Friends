@@ -3,8 +3,8 @@
 var map, infoWindow;
 var area = document.getElementById("area-shelters");
 var submit = document.getElementById("submit");
-var APIKey = "XlBR3viVn8RGIGcXwVQc7sYBJPFg1PwnPeLNVO9eXBty1nYguo";
-var secret = "zgMOcpFX72jNbDYwW7WWY1WPrvnuouonOXjXGBfc";
+var APIKey = "2BaEcf0ZgdGwgCVUIyjT2UPf4jU9zxevFmBqo3hap8bQXM09uf";
+var secret = "ChtFchPni9L0Arf2Z2A3RAKwNtxflJ48oRRI93mC";
 var queryURL = "https://api.petfinder.com/v2/oauth2/token";
 var city = "Chicago, IL";
 var status = 'adoptable';
@@ -33,6 +33,24 @@ area.addEventListener("click", function () {
             .then((data) => {
                 city = data.results[0].address_components[6].long_name;
                 console.log(data);
+                // get organization data
+                getOrg();
+                // wait for getOrg to finish, we'll need a better solution later
+                // first thing here is to loop thru the orgs array fetched by getOrgs
+                setTimeout(func => {for (i = 0; i < orgs.length; i++) {
+                  // check to see if address exists, if not, we'll use the zip code
+                  var addr = orgs[i].address.address1;
+                  if(addr === null) {
+                    addr = orgs[i].address.postcode;
+                  } else { // if address line exists, we'll use both the address line and zip
+                    addr = orgs[i].address.address1 + ", " + orgs[i].address.postcode;
+                  }
+                  // good to go to set a Marker on the map
+                  console.log(addr);
+                  var infoText = "Name: " + orgs[i].name;
+                  setMarker(addr, infoText);
+                }
+                }, 2000);
             })
     }); 
   }
@@ -197,7 +215,7 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
   infoWindow.open(map);
 }
 
-function setMarker(address) {
+function setMarker(address, infoText) {
   var url = "https://maps.googleapis.com/maps/api/geocode/json?address=" + address + "&key=AIzaSyBc7c_SM6teDzFusELkTEd6P35pCsWjMd8";
   var request = new XMLHttpRequest();
   request.addEventListener("load", function () {
@@ -209,7 +227,7 @@ function setMarker(address) {
     var marker = new google.maps.Marker({
       position: coords,
       map: map,
-      title: "Information Text"
+      title: infoText
     });
   });
   request.open("GET", url);
