@@ -16,8 +16,9 @@ var orgs = []
 var pets = []
 
 area.addEventListener("click", function () {
+
   // get user coordinates
-  if (navigator.geolocation) {
+   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(function (position) {
       var pos = {
         lat: position.coords.latitude,
@@ -32,16 +33,20 @@ area.addEventListener("click", function () {
             .then((data) => {
                 city = data.results[0].address_components[6].long_name;
                 console.log(data);
-            }).then(getOrg()).then((func) => {console.log(orgs)});
-    });
+            })
+    }); 
   }
+  // call getOrg so it can fill the global 'orgs' array with organization data
+  // iterate through orgs array and set markers on the map for each one
+  // the problem here is that 'orgs' is still an empty array at this point, since getOrg() hasn't fully finished setting the data
+
 });
 
 submit.addEventListener("click", function () {
   // code for submit button goes here
 });
 
-function getOrg() {
+async function getOrg() {
   fetch('https://api.petfinder.com/v2/oauth2/token', {
     method: 'POST',
     body: 'grant_type=client_credentials&client_id=' + APIKey + '&client_secret=' + secret,
@@ -51,11 +56,13 @@ function getOrg() {
   }).then(function (resp) {
 
     // Return the response as JSON
+    console.log("step 1 returning json");
     orgs = resp.json();
     return orgs;
 
   }).then(function (data) {
     // console logs token as json, then the api call happens
+    console.log("step 2 returning token data");
     console.log('token', data)
 
     return fetch('https://api.petfinder.com/v2/organizations?location=' + city, {
@@ -67,11 +74,13 @@ function getOrg() {
   }).then(function (resp) {
 
     // Return the API response as JSON and sets orgs to the response, returns it
+    console.log("step 3 returning response");
     return (resp.json());
 
   }).then(function (data) {
 
     // Log the pet data
+    console.log("step 4 we have our data now");
     orgs = data.organizations;
     console.log('orgs', data);
     
