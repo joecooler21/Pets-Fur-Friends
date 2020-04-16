@@ -59,10 +59,10 @@ area.addEventListener("click", function () {
 
 });
 
-submit.addEventListener("click", function () {
+/*submit.addEventListener("click", function () {
   console.log(filter.val())
 });
-
+*/
 async function getOrg() {
   fetch('https://api.petfinder.com/v2/oauth2/token', {
     method: 'POST',

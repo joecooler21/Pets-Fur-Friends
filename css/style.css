@@ -1,8 +1,12 @@
+.jumbotron {
+    justify-content: center;
+    background-color: #78c2ad;
+    color: #ffffff;
+    margin-top: 10px;
+}
 
-
-.container {
-    margin: 15px;
-    text-align: right;
+.jumbotron h1 {
+    color: #ffffff;
 }
 
 button {
@@ -19,6 +23,11 @@ img {
     margin: 5px;
 }
 
+#inputField {
+    justify-content: center;
+    padding-top: 50px;
+}
+
 #map-area {
     text-align: center;
     height: 100%;
@@ -26,17 +35,19 @@ img {
 }
 
 #map {
-    height: 100%;
-    width: 100%;
-    padding-bottom: 0px;
-  }
+    width: 550px;
+    height: 500px;
+    justify-content: center;
+    max-width: 100%;
+    margin: 0 auto 0 auto;
 
-  html, body {
-      height: 100%;
   }
 
   #img-container {
-      margin-top: 150px;
+      margin-top: 40px;
+      border-color: #78c2ad;
+      border-style: solid;
+      border: 2px;
   }
 
   #pics{
@@ -45,12 +56,8 @@ img {
   }
 
   #page{
-      display: flex;
-      margin: 0 auto;
-      width: auto;
-      height: 60px;
+      margin: 0 auto 0 auto;
       justify-content: center;
-      background-color: aqua;
       opacity: inherit;
   }
 
@@ -60,4 +67,15 @@ img {
   object-position: 100% 0;
   width: 200px;
   height: 200px;
+}
+
+.footer {
+    background-color: #78c2ad;
+    color: #ffffff;
+    margin-top: 5px;
+    display: inline-block;
+}
+
+#pagButtons {
+    justify-content: center;
 }
