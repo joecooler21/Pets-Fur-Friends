@@ -2,7 +2,6 @@
     justify-content: center;
     background-color: #78c2ad;
     color: #ffffff;
-    margin-top: 10px;
 }
 
 .jumbotron h1 {
@@ -70,14 +69,20 @@ img {
 }
 
 .footer {
+    display: flex;
     background-color: #78c2ad;
     color: #ffffff;
     margin-top: 5px;
-    display: inline-block;
+   
 }
 
 #pagButtons {
     justify-content: center;
     display: flex;
     color: #ffffff;
+}
+
+#userLocation {
+    background-color: #ffffff;
+    color: #888;
 }
