@@ -129,7 +129,7 @@ function getAnimals() {
   }).then(function (data) {
 
     // makes api call with search parameters
-    return fetch('https://api.petfinder.com/v2/animals?location=' + city + '&limit=20', {
+    return fetch('https://api.petfinder.com/v2/animals?location=' + city + '&limit=20' + '&page=' + page, {
       headers: {
         'Authorization': data.token_type + ' ' + data.access_token,
         'Content-Type': 'application/x-www-form-urlencoded'
@@ -166,9 +166,15 @@ function getAnimals() {
 //getOrg();
 getAnimals();
 
-// this button increases the page number and displays new set of pets
-$("#page").on("click", function () {
+// These buttons increases and decrease the page number and displays new sets of pets
+$("#page-next").on("click", function () {
   page++
+  pics.html("")
+  getAnimals()
+})
+
+$("#page-previous").on("click", function () {
+  page--
   pics.html("")
   getAnimals()
 })
