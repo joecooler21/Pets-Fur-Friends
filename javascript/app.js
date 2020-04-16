@@ -1,8 +1,7 @@
-
-
 var map, infoWindow;
 var area = document.getElementById("area-shelters");
 var submit = document.getElementById("submit");
+var filter = $("#filter-by")
 var APIKey = "2BaEcf0ZgdGwgCVUIyjT2UPf4jU9zxevFmBqo3hap8bQXM09uf";
 var secret = "ChtFchPni9L0Arf2Z2A3RAKwNtxflJ48oRRI93mC";
 var queryURL = "https://api.petfinder.com/v2/oauth2/token";
@@ -61,7 +60,7 @@ area.addEventListener("click", function () {
 });
 
 submit.addEventListener("click", function () {
-  // code for submit button goes here
+  console.log(filter.val())
 });
 
 async function getOrg() {
@@ -129,7 +128,7 @@ function getAnimals() {
   }).then(function (data) {
 
     // makes api call with search parameters
-    return fetch('https://api.petfinder.com/v2/animals?location=' + city + '&limit=18', {
+    return fetch('https://api.petfinder.com/v2/animals?location=' + city + '&limit=18' + '&page=' + page, {
       headers: {
         'Authorization': data.token_type + ' ' + data.access_token,
         'Content-Type': 'application/x-www-form-urlencoded'
@@ -148,7 +147,7 @@ function getAnimals() {
 
     var results = data.animals.length
     for (var i = 0; i < results; i++) {
-      var picturetag = (data.animals[i].photos[0]?.large || "https://via.placeholder.com/150")
+      var picturetag = (data.animals[i].photos[0]?.large || "images/d6e35b19-3dee-41b3-b052-4e7e9db58292_200x200.png")
       pics.append('<img src="' + picturetag + '"/>')
 
     }
@@ -233,3 +232,28 @@ function setMarker(address, infoText) {
   request.open("GET", url);
   request.send();
 }
+
+function getZip () {
+  // get user coordinates
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function (position) {
+      var pos = {
+        lat: position.coords.latitude,
+        lng: position.coords.longitude
+      };
+      // get user location based on coordinates
+      var url = "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + pos.lat + "," + pos.lng + "&key=AIzaSyBc7c_SM6teDzFusELkTEd6P35pCsWjMd8";
+      var request = new XMLHttpRequest();
+      request.addEventListener("load", function () {
+        var obj = JSON.parse(this.responseText);
+        // this is users zip code
+        city = obj.results[0].address_components[6].long_name;
+        console.log(obj);
+        console.log("current location = " + city);
+      });
+      request.open("GET", url);
+      request.send();
+    });
+  }
+  
+};
