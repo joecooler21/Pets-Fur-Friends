@@ -52,6 +52,7 @@ area.addEventListener("click", function () {
                   setMarker(addr, infoText);
                 }
                 }, 2000);
+                map.zoom = 11;
             })
     }); 
   }
