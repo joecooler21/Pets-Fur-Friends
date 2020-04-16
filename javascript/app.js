@@ -60,9 +60,9 @@ area.addEventListener("click", function () {
 
 });
 
-submit.addEventListener("click", function () {
+//submit.addEventListener("click", function () {
   // code for submit button goes here
-});
+//});
 
 async function getOrg() {
   fetch('https://api.petfinder.com/v2/oauth2/token', {
@@ -129,7 +129,7 @@ function getAnimals() {
   }).then(function (data) {
 
     // makes api call with search parameters
-    return fetch('https://api.petfinder.com/v2/animals?location=' + city + '&limit=18', {
+    return fetch('https://api.petfinder.com/v2/animals?location=' + city + '&limit=20', {
       headers: {
         'Authorization': data.token_type + ' ' + data.access_token,
         'Content-Type': 'application/x-www-form-urlencoded'
