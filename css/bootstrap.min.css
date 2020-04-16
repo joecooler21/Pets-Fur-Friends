@@ -384,7 +384,9 @@ h6 {
     font-family: Montserrat, -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     font-weight: 500;
     line-height: 1.2;
-    color: #5a5a5a
+    color: #ffffff;
+    text-align: center;
+    background-color: #888;
 }
 
 .h1,
