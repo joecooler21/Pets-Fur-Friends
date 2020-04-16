@@ -5,15 +5,17 @@ var filter = $("#filter-by")
 var APIKey = "2BaEcf0ZgdGwgCVUIyjT2UPf4jU9zxevFmBqo3hap8bQXM09uf";
 var secret = "ChtFchPni9L0Arf2Z2A3RAKwNtxflJ48oRRI93mC";
 var queryURL = "https://api.petfinder.com/v2/oauth2/token";
-var city = "Chicago, IL";
-var status = 'adoptable';
-var coat = ''
+var state = '';
+var zip = ''
+var thing = '53177'
 var type = ''
+var breed = ''
+var gender = ''
 var page = 1
 var pics = $("#pics");
 var orgs = []
 var pets = []
-
+var zip = ''
 area.addEventListener("click", function () {
 
   // get user coordinates
@@ -59,10 +61,8 @@ area.addEventListener("click", function () {
 
 });
 
-/*submit.addEventListener("click", function () {
-  console.log(filter.val())
-});
-*/
+
+
 async function getOrg() {
   fetch('https://api.petfinder.com/v2/oauth2/token', {
     method: 'POST',
@@ -112,7 +112,7 @@ async function getOrg() {
 }
 
 // Adds function that makes API call to return Animals object as json object
-function getAnimals() {
+ function getAnimals() {
 
   fetch('https://api.petfinder.com/v2/oauth2/token', {
     method: 'POST',
@@ -128,7 +128,7 @@ function getAnimals() {
   }).then(function (data) {
 
     // makes api call with search parameters
-    return fetch('https://api.petfinder.com/v2/animals?location=' + city + '&limit=18' + '&page=' + page, {
+    return fetch('https://api.petfinder.com/v2/animals?location=' + thing + '&limit=18' + '&type=' + type + '&breed=' + breed + '&gender=' + gender + '&page=' + page, {
       headers: {
         'Authorization': data.token_type + ' ' + data.access_token,
         'Content-Type': 'application/x-www-form-urlencoded'
@@ -144,7 +144,7 @@ function getAnimals() {
 
     // Log the pet data
     console.log('pets', data);
-
+    pics.html("")
     var results = data.animals.length
     for (var i = 0; i < results; i++) {
       var picturetag = (data.animals[i].photos[0]?.large || "images/d6e35b19-3dee-41b3-b052-4e7e9db58292_200x200.png")
@@ -166,8 +166,14 @@ function getAnimals() {
 getAnimals();
 
 // this button increases the page number and displays new set of pets
-$("#page").on("click", function () {
+$("#page-next").on("click", function () {
   page++
+  pics.html("")
+  getAnimals()
+})
+
+$("#page-previous").on("click", function () {
+  page--
   pics.html("")
   getAnimals()
 })
@@ -233,7 +239,7 @@ function setMarker(address, infoText) {
   request.send();
 }
 
-function getZip () {
+async function getZip () {
   // get user coordinates
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(function (position) {
@@ -256,4 +262,17 @@ function getZip () {
     });
   }
   
-};
+}
+
+submit.addEventListener("click", function (e) {
+  e.preventDefault();
+  state = $("#userCity").val().trim().toUpperCase();
+  zip = $("#userZipCode").val().trim()
+  thing = zip + ',' + ' ' + state
+  type = $("#userAnimal").val().trim()
+  breed = $("#userBreed").val().trim()
+  gender = $("#userAge").val().trim()
+  alert(gender)
+  alert(thing);
+  getAnimals();
+});
