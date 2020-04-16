@@ -7,7 +7,7 @@ var secret = "ChtFchPni9L0Arf2Z2A3RAKwNtxflJ48oRRI93mC";
 var queryURL = "https://api.petfinder.com/v2/oauth2/token";
 var state = '';
 var zip = ''
-var thing = '53177'
+var userLocation = ''
 var type = ''
 var breed = ''
 var gender = ''
@@ -97,18 +97,22 @@ async function getOrg() {
 }
 // Adds function that makes API call to return Animals object as json object
  function getAnimals() {
+ 
   fetch('https://api.petfinder.com/v2/oauth2/token', {
     method: 'POST',
     body: 'grant_type=client_credentials&client_id=' + APIKey + '&client_secret=' + secret,
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded'
     }
+  
+  
   }).then(function (resp) {
     // Return the response as JSON
     return resp.json();
-  }).then(function (data) {
+  
+}).then(function (data) {
     // makes api call with search parameters
-    return fetch('https://api.petfinder.com/v2/animals?location=' + thing + '&limit=18' + '&type=' + type + '&breed=' + breed + '&gender=' + gender + '&page=' + page, {
+    return fetch('https://api.petfinder.com/v2/animals?location=' + userLocation + '&limit=18' + '&type=' + type + '&breed=' + breed + '&gender=' + gender + '&page=' + page, {
       headers: {
         'Authorization': data.token_type + ' ' + data.access_token,
         'Content-Type': 'application/x-www-form-urlencoded'
@@ -120,7 +124,7 @@ async function getOrg() {
     return pets
   }).then(function (data) {
     totalPages = data.pagination.total_pages
-    alert(totalPages)
+    
     // Log the pet data
     console.log('pets', data);
     pics.html("")
@@ -137,7 +141,7 @@ async function getOrg() {
 }
 // calls both functions
 //getOrg();
-getAnimals();
+//getAnimals();
 // this button increases the page number and displays new set of pets
 $("#page-next").on("click", function () {
   page++
@@ -146,6 +150,7 @@ $("#page-next").on("click", function () {
   }
   pics.html("")
   getAnimals()
+  pageNumber();
 })
 $("#page-previous").on("click", function () {
   page--
@@ -154,6 +159,7 @@ $("#page-previous").on("click", function () {
   }
   pics.html("")
   getAnimals()
+  pageNumber();
 })
 function initMap() {
   map = new google.maps.Map(document.getElementById('map'), {
@@ -210,7 +216,8 @@ function setMarker(address, infoText) {
   request.open("GET", url);
   request.send();
 }
-async function getZip () {
+
+  function getZip (callback) {
   // get user coordinates
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(function (position) {
@@ -224,24 +231,65 @@ async function getZip () {
       request.addEventListener("load", function () {
         var obj = JSON.parse(this.responseText);
         // this is users zip code
-        city = obj.results[0].address_components[6].long_name;
+        userLocation = obj.results[0].address_components[6].long_name;
         console.log(obj);
-        console.log("current location = " + city);
+        console.log("current location = " + userLocation);
+        if (userLocation){
+          getAnimals()
+        }
       });
       request.open("GET", url);
       request.send();
     });
   }
-}
+ }
+  
 submit.addEventListener("click", function (e) {
   e.preventDefault();
-  state = $("#userCity").val().trim().toUpperCase();
+  if (page > 1){
+    page = 1
+    pageNumber()
+  }
+  state = $("#userState").val().trim().toUpperCase();
   zip = $("#userZipCode").val().trim()
-  thing = zip + ',' + ' ' + state
+  if (!zip && !state){
+    zip = userLocation
+  }else if (!zip){
+    userLocation = state
+  }else if (!state){
+    userLocation = zip
+  }else{
+    userLocation = zip + ',' + ' ' + state
+  }
+  alert(userLocation)
   type = $("#userAnimal").val().trim()
   breed = $("#userBreed").val().trim()
-  gender = $("#userAge").val().trim()
-  alert(gender)
-  alert(thing);
+  gender = $("#userGender").val()
   getAnimals();
 });
+
+function pageNumber(){
+  var pagenumber = $(".page-number")
+  pagenumber.text(`Page: ${page}`)
+}
+
+function hello(){
+  var mapsLocation = $("#userLocation")
+    mapsLocation.text(`Your Location : ${userLocation}`)
+}
+
+pageNumber();
+
+/*setTimeout(() => {
+  getAnimals()
+  }, 10000)
+*/
+getZip()
+
+setTimeout(() => {
+  hello()
+  }, 8000)
+
+
+
+
