@@ -16,6 +16,7 @@ var pics = $("#pics");
 var orgs = []
 var pets = []
 var zip = ''
+var totalPages = ''
 area.addEventListener("click", function () {
 
   // get user coordinates
@@ -142,6 +143,8 @@ async function getOrg() {
 
   }).then(function (data) {
 
+    totalPages = data.pagination.total_pages
+    alert(totalPages)
     // Log the pet data
     console.log('pets', data);
     pics.html("")
@@ -168,12 +171,18 @@ getAnimals();
 // this button increases the page number and displays new set of pets
 $("#page-next").on("click", function () {
   page++
+  if (page > totalPages){
+    page = totalPages
+  }
   pics.html("")
   getAnimals()
 })
 
 $("#page-previous").on("click", function () {
   page--
+  if (page < 1){
+    page = 1
+  }
   pics.html("")
   getAnimals()
 })
