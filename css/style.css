@@ -78,4 +78,6 @@ img {
 
 #pagButtons {
     justify-content: center;
+    display: flex;
+    color: #ffffff;
 }
