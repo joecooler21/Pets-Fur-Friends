@@ -7,7 +7,7 @@ var secret = "ChtFchPni9L0Arf2Z2A3RAKwNtxflJ48oRRI93mC";
 var queryURL = "https://api.petfinder.com/v2/oauth2/token";
 var state = '';
 var zip = ''
-var thing = '53177'
+var userLocation = '53177'
 var type = ''
 var breed = ''
 var gender = ''
@@ -129,7 +129,7 @@ async function getOrg() {
   }).then(function (data) {
 
     // makes api call with search parameters
-    return fetch('https://api.petfinder.com/v2/animals?location=' + thing + '&limit=18' + '&type=' + type + '&breed=' + breed + '&gender=' + gender + '&page=' + page, {
+    return fetch('https://api.petfinder.com/v2/animals?location=' + userLocation + '&limit=18' + '&type=' + type + '&breed=' + breed + '&gender=' + gender + '&page=' + page, {
       headers: {
         'Authorization': data.token_type + ' ' + data.access_token,
         'Content-Type': 'application/x-www-form-urlencoded'
@@ -248,7 +248,7 @@ function setMarker(address, infoText) {
   request.send();
 }
 
-async function getZip () {
+ function getZip () {
   // get user coordinates
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(function (position) {
@@ -277,11 +277,11 @@ submit.addEventListener("click", function (e) {
   e.preventDefault();
   state = $("#userCity").val().trim().toUpperCase();
   zip = $("#userZipCode").val().trim()
-  thing = zip + ',' + ' ' + state
+  userLocation = zip + ',' + ' ' + state
   type = $("#userAnimal").val().trim()
   breed = $("#userBreed").val().trim()
   gender = $("#userAge").val().trim()
   alert(gender)
-  alert(thing);
+  alert(userLocation);
   getAnimals();
 });
