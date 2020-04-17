@@ -54,6 +54,7 @@ area.addEventListener("click", function () {
                   }
                   // good to go to set a Marker on the map
                   console.log(addr);
+
                   var infoText = "Name: " + orgs[i].name;
                   let name = orgs[i].name;
                   if (name === null) {
@@ -79,7 +80,9 @@ area.addEventListener("click", function () {
                   }
                   var infoText = "Name: " + name;
                   setMarker(addr, infoText,
+
                     '<div id="info-name">' + name + '</div>' + '<div>Address: ' + address + '</div>' + '<div>Website: ' + website + '</div>' + '<hr>' + '<span>Phone: ' + phone + '</span>' + '<div>E-mail: ' + '<a href="mailto:' + email + '?Subject=Hello%20again" target="_top">' + email + '</a>');
+
                     }
                     clearInterval(int); // clear the timer and proceed
                   }
@@ -282,7 +285,6 @@ function setMarker(address, titleText, htmlContent) {
             userLocation = obj.results[0].address_components[i].long_name
           }
         }
-        //alert(componentLength)
         //userLocation = obj.results[0].address_components[6].long_name;
         console.log(obj);
         console.log("current location = " + userLocation);
@@ -335,3 +337,10 @@ function loading(){
 loading()
 pageNumber();
 getZip()
+
+
+
+
+
+
+
