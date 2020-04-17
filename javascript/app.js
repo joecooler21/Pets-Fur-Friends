@@ -7,7 +7,7 @@ var secret = "ChtFchPni9L0Arf2Z2A3RAKwNtxflJ48oRRI93mC";
 var queryURL = "https://api.petfinder.com/v2/oauth2/token";
 var state = '';
 var zip = ''
-var thing = '53177'
+var userLocation = ''
 var type = ''
 var breed = ''
 var gender = ''
@@ -18,6 +18,7 @@ var pets = []
 var zip = ''
 var totalPages = ''
 area.addEventListener("click", function () {
+  orgs = []; // make sure to empty organization data so we don't bring the info from the previous call
   // get user coordinates
    if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(function (position) {
@@ -36,11 +37,10 @@ area.addEventListener("click", function () {
                 console.log(data);
                 // get organization data
                 getOrg();
-                // wait for getOrg to finish, we'll need a better solution later
-                // first thing here is to loop thru the orgs array fetched by getOrgs
-                setTimeout(func => {for (i = 0; i < orgs.length; i++) {
-                  // check to see if address exists, if not, we'll use the zip code
-                  var addr = orgs[i].address.address1;
+                var int = setInterval(function(){ // every 1/10th of a second, check to see if orgs has been populated with data
+                  if (orgs.length > 0) {
+                    for (i = 0; i < orgs.length; i++) {
+                      var addr = orgs[i].address.address1;
                   if(addr === null) {
                     addr = orgs[i].address.postcode;
                   } else { // if address line exists, we'll use both the address line and zip
@@ -48,10 +48,37 @@ area.addEventListener("click", function () {
                   }
                   // good to go to set a Marker on the map
                   console.log(addr);
-                  var infoText = "Name: " + orgs[i].name;
-                  setMarker(addr, infoText);
-                }
-                }, 2000);
+                  let name = orgs[i].name;
+                  if (name === null) {
+                    name = 'N/A';
+                  }
+                  let email = orgs[i].email;
+                  if (email === null) {
+                    email = 'N/A';
+                  }
+                  let phone = orgs[i].phone;
+                  if (phone === null) {
+                    phone = 'N/A';
+                  }
+                  let website = orgs[i].website;
+                  if (website === null) {
+                    website = 'N/A';
+                  } else {
+                    website = '<a href="' + website + '">' + website + '</a>';
+                  }
+                  let address = orgs[i].address.address1;
+                  if (address === null) {
+                    address = 'N/A';
+                  }
+
+                  var infoText = "Name: " + name;
+                  setMarker(addr, infoText,
+                     '<div id="info-name">' + name + '</div>' + '<div>Address: ' + address + '</div>' + '<div>Website: ' + website + '</div>' + '<hr>' + '<span>Phone: ' + phone + '</span>' + '<div>E-mail: ' + '<a href="mailto:' + email + '?Subject=Hello%20again" target="_top">' + email + '</a>');
+                    }
+                    clearInterval(int); // clear the timer and proceed
+                  }
+                }, 100);
+                map.zoom = 8;
             })
     }); 
   }
@@ -97,18 +124,22 @@ async function getOrg() {
 }
 // Adds function that makes API call to return Animals object as json object
  function getAnimals() {
+ 
   fetch('https://api.petfinder.com/v2/oauth2/token', {
     method: 'POST',
     body: 'grant_type=client_credentials&client_id=' + APIKey + '&client_secret=' + secret,
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded'
     }
+  
+  
   }).then(function (resp) {
     // Return the response as JSON
     return resp.json();
-  }).then(function (data) {
+  
+}).then(function (data) {
     // makes api call with search parameters
-    return fetch('https://api.petfinder.com/v2/animals?location=' + thing + '&limit=18' + '&type=' + type + '&breed=' + breed + '&gender=' + gender + '&page=' + page, {
+    return fetch('https://api.petfinder.com/v2/animals?location=' + userLocation + '&limit=18' + '&type=' + type + '&breed=' + breed + '&gender=' + gender + '&page=' + page, {
       headers: {
         'Authorization': data.token_type + ' ' + data.access_token,
         'Content-Type': 'application/x-www-form-urlencoded'
@@ -120,7 +151,7 @@ async function getOrg() {
     return pets
   }).then(function (data) {
     totalPages = data.pagination.total_pages
-    alert(totalPages)
+    $("#loading").html("")
     // Log the pet data
     console.log('pets', data);
     pics.html("")
@@ -137,7 +168,7 @@ async function getOrg() {
 }
 // calls both functions
 //getOrg();
-getAnimals();
+//getAnimals();
 // this button increases the page number and displays new set of pets
 $("#page-next").on("click", function () {
   page++
@@ -145,7 +176,9 @@ $("#page-next").on("click", function () {
     page = totalPages
   }
   pics.html("")
+  loading();
   getAnimals()
+  pageNumber();
 })
 $("#page-previous").on("click", function () {
   page--
@@ -153,7 +186,9 @@ $("#page-previous").on("click", function () {
     page = 1
   }
   pics.html("")
+  loading();
   getAnimals()
+  pageNumber();
 })
 function initMap() {
   map = new google.maps.Map(document.getElementById('map'), {
@@ -192,7 +227,7 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
     'Error: Your browser doesn\'t support geolocation.');
   infoWindow.open(map);
 }
-function setMarker(address, infoText) {
+function setMarker(address, titleText, htmlContent) {
   var url = "https://maps.googleapis.com/maps/api/geocode/json?address=" + address + "&key=AIzaSyBc7c_SM6teDzFusELkTEd6P35pCsWjMd8";
   var request = new XMLHttpRequest();
   request.addEventListener("load", function () {
@@ -204,13 +239,19 @@ function setMarker(address, infoText) {
     var marker = new google.maps.Marker({
       position: coords,
       map: map,
-      title: infoText
+      title: titleText
+    });
+    marker.addListener('click', function() {
+    infoWindow.setPosition(coords);
+    infoWindow.setContent(htmlContent);
+    infoWindow.open(map);
     });
   });
   request.open("GET", url);
   request.send();
 }
-async function getZip () {
+
+  function getZip (callback) {
   // get user coordinates
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(function (position) {
@@ -224,24 +265,67 @@ async function getZip () {
       request.addEventListener("load", function () {
         var obj = JSON.parse(this.responseText);
         // this is users zip code
-        city = obj.results[0].address_components[6].long_name;
+        userLocation = obj.results[0].address_components[6].long_name;
         console.log(obj);
-        console.log("current location = " + city);
+        console.log("current location = " + userLocation);
+        if (userLocation){
+          getAnimals()
+        }
       });
       request.open("GET", url);
       request.send();
     });
   }
-}
+ }
+  
 submit.addEventListener("click", function (e) {
   e.preventDefault();
-  state = $("#userCity").val().trim().toUpperCase();
+  if (page > 1){
+    page = 1
+    pageNumber()
+  }
+  state = $("#userState").val().trim().toUpperCase();
   zip = $("#userZipCode").val().trim()
-  thing = zip + ',' + ' ' + state
+  if (!zip && !state){
+    zip = userLocation
+  }else if (!zip){
+    userLocation = state
+  }else if (!state){
+    userLocation = zip
+  }else{
+    userLocation = zip + ',' + ' ' + state
+  }
+  alert(userLocation)
   type = $("#userAnimal").val().trim()
   breed = $("#userBreed").val().trim()
-  gender = $("#userAge").val().trim()
-  alert(gender)
-  alert(thing);
+  gender = $("#userGender").val()
+  pics.html("")
+  loading();
   getAnimals();
 });
+
+function pageNumber(){
+  var pagenumber = $(".page-number")
+  pagenumber.text(`Page: ${page}`)
+}
+
+function displayZip(){
+  var mapsLocation = $("#userLocation")
+    mapsLocation.text(`Your Location : ${userLocation}`)
+}
+
+function loading(){
+  $("#loading").text('Loading pets, please wait...')
+}
+loading()
+pageNumber();
+setTimeout(() => {
+  displayZip()
+  }, 8000)
+getZip()
+
+
+
+
+
+
