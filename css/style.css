@@ -2,24 +2,17 @@
     justify-content: center;
     background-color: #78c2ad;
     color: #ffffff;
+    margin-bottom: 0;
 }
 
 .jumbotron h1 {
     color: #ffffff;
 }
 
-button {
-    margin-top: 0px;
-}
-select {
-    margin-bottom: 10px;
-    margin-left: 10px;
+#mainCont {
+  background-color: #ffffff;
 }
 
-#inputField {
-    justify-content: center;
-    padding-top: 50px;
-}
 
 #map-area {
     text-align: center;
@@ -28,18 +21,17 @@ select {
 }
 
 #map {
-    width: 500px;
+    width: 550px;
     height: 500px;
     justify-content: center;
     max-width: 100%;
     margin: 0 auto 0 auto;
+    border-style: solid;
+    border-color: #78c2ad;
 }
 
 #img-container {
-      margin-top: 20px;
-      border-color: #78c2ad;
-      border-style: solid;
-      border: 2px;
+    background-color: #ffffff;
 }
 
 #pics {
@@ -62,13 +54,13 @@ img {
   height: 200px;
   border-radius: 4px;
   border-style: solid;
-  border-width: 4px;
-  border-color: #888;
+  border-width: 2px;
+  border-color: #ffffff;
 }
 
 .footer {
     display: block;
-    background-color: #78c2ad;
+    background-color: #56CC9D;
     color: #ffffff;
     margin-top: 5px;
 }
@@ -81,7 +73,9 @@ img {
 
 #userLocation {
     background-color: #ffffff;
-    color: #888;
+    color: #5a5a5a;
+    font-weight: 400;
+    font-size: 25px;
 }
 
 #jumboH1 {
@@ -100,22 +94,16 @@ img {
     color: #888;
     font-size: 16px;
     text-align: center;
-    font-family: inherit;
-}
-
-#userLocation {
-    color: #888;
-    font-size: 25px;
-    font-family: font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";;
 }
 
 #loading {
     display: flex;
     justify-content: center;
-    margin-top: 100px;
     color: #888;
     font-size: 50px;
-    font-family: inherit;
+    background-color: #ffffff;
+    padding-top: 200px;
+
 }
 
 .card {
@@ -125,18 +113,15 @@ img {
     height: 400px;
     background-color: #78c2ad;
     border-width: 5px;
-    border-style: bold;
+    border-style: solid;
     border-color: #888;
-    font-family: inherit;
 }
 
 .card-info {
     font-size: 20px;
-    font-family: inherit;
     color: #ffffff;
 }
 
 #info-name {
     font-weight: bold;
-    font-family: inherit;
 }
