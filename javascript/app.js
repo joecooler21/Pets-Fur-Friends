@@ -48,32 +48,11 @@ area.addEventListener("click", function () {
                   }
                   // good to go to set a Marker on the map
                   console.log(addr);
-                  let name = orgs[i].name;
-                  if (name === null) {
-                    name = 'N/A';
-                  }
-                  let email = orgs[i].email;
-                  if (email === null) {
-                    email = 'N/A';
-                  }
-                  let phone = orgs[i].phone;
-                  if (phone === null) {
-                    phone = 'N/A';
-                  }
-                  let website = orgs[i].website;
-                  if (website === null) {
-                    website = 'N/A';
-                  } else {
-                    website = '<a href="' + website + '">' + website + '</a>';
-                  }
-                  let address = orgs[i].address.address1;
-                  if (address === null) {
-                    address = 'N/A';
-                  }
 
-                  var infoText = "Name: " + name;
+                  var infoText = "Name: " + orgs[i].name;
                   setMarker(addr, infoText,
-                     '<div id="info-name">' + name + '</div>' + '<div>Address: ' + address + '</div>' + '<div>Website: ' + website + '</div>' + '<hr>' + '<span>Phone: ' + phone + '</span>' + '<div>E-mail: ' + '<a href="mailto:' + email + '?Subject=Hello%20again" target="_top">' + email + '</a>');
+                     '<div>' + orgs[i].name + '</div>' + '<hr>' + '<span>Phone: ' + orgs[i].phone + '</span>' + '<div>E-mail: ' + orgs[i].email + '</div>');
+
                     }
                     clearInterval(int); // clear the timer and proceed
                   }
@@ -124,22 +103,18 @@ async function getOrg() {
 }
 // Adds function that makes API call to return Animals object as json object
  function getAnimals() {
- 
   fetch('https://api.petfinder.com/v2/oauth2/token', {
     method: 'POST',
     body: 'grant_type=client_credentials&client_id=' + APIKey + '&client_secret=' + secret,
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded'
     }
-  
-  
   }).then(function (resp) {
     // Return the response as JSON
     return resp.json();
-  
 }).then(function (data) {
     // makes api call with search parameters
-    return fetch('https://api.petfinder.com/v2/animals?location=' + userLocation + '&limit=18' + '&type=' + type + '&breed=' + breed + '&gender=' + gender + '&page=' + page, {
+    return fetch('https://api.petfinder.com/v2/animals?location=' + userLocation + '&limit=8' + '&type=' + type + '&breed=' + breed + '&gender=' + gender + '&page=' + page, {
       headers: {
         'Authorization': data.token_type + ' ' + data.access_token,
         'Content-Type': 'application/x-www-form-urlencoded'
@@ -156,13 +131,23 @@ async function getOrg() {
     console.log('pets', data);
     pics.html("")
     var results = data.animals.length
+    //div.addClass('card')
     for (var i = 0; i < results; i++) {
+      var div = $("<div>")
+      var nameDiv = $("<div>")
+      nameDiv.addClass('card-info')
+      div.addClass('card')
+      var name = data.animals[i].name
       var picturetag = (data.animals[i].photos[0]?.large || "images/d6e35b19-3dee-41b3-b052-4e7e9db58292_200x200.png")
-      pics.append('<img src="' + picturetag + '"/>')
+      div.append('<img src="' + picturetag + '"/>')
+      nameDiv.text(name)
+      div.append(nameDiv)
+      pics.append(div)
     }
     console.log(results)
   }).catch(function (err) {
     // Log any errors
+    alert('Woops! Looks like you\'ve entered an invalid seach parameter. Please try your search again using a different key word.')
     console.log('something went wrong', err);
   });
 }
@@ -250,7 +235,6 @@ function setMarker(address, titleText, htmlContent) {
   request.open("GET", url);
   request.send();
 }
-
   function getZip (callback) {
   // get user coordinates
   if (navigator.geolocation) {
@@ -269,6 +253,7 @@ function setMarker(address, titleText, htmlContent) {
         console.log(obj);
         console.log("current location = " + userLocation);
         if (userLocation){
+          displayZip()
           getAnimals()
         }
       });
@@ -277,7 +262,6 @@ function setMarker(address, titleText, htmlContent) {
     });
   }
  }
-  
 submit.addEventListener("click", function (e) {
   e.preventDefault();
   if (page > 1){
@@ -303,7 +287,6 @@ submit.addEventListener("click", function (e) {
   loading();
   getAnimals();
 });
-
 function pageNumber(){
   var pagenumber = $(".page-number")
   pagenumber.text(`Page: ${page}`)
@@ -319,10 +302,8 @@ function loading(){
 }
 loading()
 pageNumber();
-setTimeout(() => {
-  displayZip()
-  }, 8000)
 getZip()
+
 
 
 
