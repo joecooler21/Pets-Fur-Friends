@@ -124,7 +124,7 @@ async function getOrg() {
     return pets
   }).then(function (data) {
     totalPages = data.pagination.total_pages
-    
+    $("#loading").html("")
     // Log the pet data
     console.log('pets', data);
     pics.html("")
@@ -149,6 +149,7 @@ $("#page-next").on("click", function () {
     page = totalPages
   }
   pics.html("")
+  loading();
   getAnimals()
   pageNumber();
 })
@@ -158,6 +159,7 @@ $("#page-previous").on("click", function () {
     page = 1
   }
   pics.html("")
+  loading();
   getAnimals()
   pageNumber();
 })
@@ -265,6 +267,8 @@ submit.addEventListener("click", function (e) {
   type = $("#userAnimal").val().trim()
   breed = $("#userBreed").val().trim()
   gender = $("#userGender").val()
+  pics.html("")
+  loading();
   getAnimals();
 });
 
@@ -273,22 +277,22 @@ function pageNumber(){
   pagenumber.text(`Page: ${page}`)
 }
 
-function hello(){
+function displayZip(){
   var mapsLocation = $("#userLocation")
     mapsLocation.text(`Your Location : ${userLocation}`)
 }
 
+function loading(){
+  $("#loading").text('Loading pets, please wait...')
+}
+loading()
 pageNumber();
-
-/*setTimeout(() => {
-  getAnimals()
-  }, 10000)
-*/
+setTimeout(() => {
+  displayZip()
+  }, 8000)
 getZip()
 
-setTimeout(() => {
-  hello()
-  }, 8000)
+
 
 
 
