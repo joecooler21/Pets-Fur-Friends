@@ -90,7 +90,6 @@ select {
     color: black;
     font-size: 28px;
 }
-
 #loading{
     display: flex;
     justify-content: center;
@@ -98,7 +97,6 @@ select {
     color:black;
     font-size: 100px;
 }
-
 .card{
     display: inline-table;
     margin: 10px;
@@ -111,9 +109,7 @@ select {
 }
 .card-info{
     font-size: 30px;
-
-
+}
 #info-name {
     font-weight: bold;
-
 }
