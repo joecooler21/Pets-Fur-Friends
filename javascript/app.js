@@ -17,6 +17,31 @@ var orgs = []
 var pets = []
 var zip = ''
 var totalPages = ''
+var config = {
+
+  apiKey: "AIzaSyDitAXjuCRaclQJVq-u8Lj5hXKu376wo0Y",
+  authDomain: "wisc-lc-cd1c2.firebaseapp.com",
+  databaseURL: "https://wisc-lc-cd1c2.firebaseio.com",
+  projectId: "wisc-lc-cd1c2",
+  storageBucket: "wisc-lc-cd1c2.appspot.com",
+};
+
+
+
+
+
+
+  
+  firebase.initializeApp(config);
+  var database = firebase.database();
+
+  /* database.ref().once('value').then(function(snap) {
+    key = snap.val().gKey;
+  }).then(function() {
+    // we have the key, now send response
+  }); */
+
+
 area.addEventListener("click", function () {
   orgs = []; // make sure to empty organization data so we don't bring the info from the previous call
   // get user coordinates
@@ -26,10 +51,11 @@ area.addEventListener("click", function () {
         lat: position.coords.latitude,
         lng: position.coords.longitude
       };
-      // get user location based on coordinates
-      var url = "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + pos.lat + "," + pos.lng + "&key=AIzaSyBc7c_SM6teDzFusELkTEd6P35pCsWjMd8";
-      fetch(url)
-            .then((response) => {
+      // retrieve api key then fetch geocode data
+      database.ref().once('value').then(function(snap) {
+        var key = snap.val().gKey;
+        var url = "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + pos.lat + "," + pos.lng + "&key=" + key;
+        fetch(url).then((response) => {
                 return response.json();
             })
             .then((data) => {
@@ -85,7 +111,8 @@ area.addEventListener("click", function () {
                   }
                 }, 100);
                 map.zoom = 8;
-            })
+            });
+          });
     }); 
   }
   // call getOrg so it can fill the global 'orgs' array with organization data
