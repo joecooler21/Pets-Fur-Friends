@@ -11,7 +11,7 @@
 
 #mainCont {
   background-color: #ffffff;
-  padding-top: 15px;
+  padding-top: 20px;
 }
 
 
@@ -29,6 +29,7 @@
     margin: 0 auto 0 auto;
     border-style: solid;
     border-color: #78c2ad;
+    border-width: 4px;
 }
 
 #img-container {
@@ -56,7 +57,7 @@ img {
   border-radius: 4px;
   border-style: solid;
   border-width: 2px;
-  border-color: #ffffff;
+  border-color: #78c2ad;
 }
 
 .footer {
@@ -112,15 +113,15 @@ img {
     margin: 10px;
     width: 300px;
     height: 400px;
-    background-color: #78c2ad;
-    border-width: 5px;
+    background-color: #ffffff;
     border-style: solid;
-    border-color: #888;
+    border-color: #78c2ad;
+    border-width: 4px;
 }
 
 .card-info {
     font-size: 20px;
-    color: #ffffff;
+    color: #888;
 }
 
 #info-name {
