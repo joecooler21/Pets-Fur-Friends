@@ -131,6 +131,7 @@ async function getOrg() {
   }).then(function (data) {
     totalPages = data.pagination.total_pages
     $("#loading").html("")
+    $("#dog").html("")
     // Log the pet data
     console.log('pets', data);
     pics.html("")
@@ -143,7 +144,8 @@ async function getOrg() {
       div.addClass('card')
       var name = data.animals[i].name
       var picturetag = (data.animals[i].photos[0]?.large || "images/d6e35b19-3dee-41b3-b052-4e7e9db58292_200x200.png")
-      div.append('<img src="' + picturetag + '"/>')
+      var animalPics = '<img src="' + picturetag + '"/>'
+      div.append(animalPics)
       nameDiv.text(name)
       div.append(nameDiv)
       pics.append(div)
@@ -307,7 +309,10 @@ function displayZip(){
     mapsLocation.text(`Your Location : ${userLocation}`)
 }
 function loading(){
+  var dogAnimation = $('<img src="images/dog-animation.png">')
+  dogAnimation.addClass('yo')
   $("#loading").text('Loading pets, please wait...')
+  $("#loading").append(dogAnimation)
 }
 loading()
 pageNumber();

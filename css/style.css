@@ -113,3 +113,7 @@ select {
 #info-name {
     font-weight: bold;
 }
+
+.yo{
+    border-style: hidden;
+}
