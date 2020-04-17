@@ -33,7 +33,13 @@ area.addEventListener("click", function () {
                 return response.json();
             })
             .then((data) => {
-                city = data.results[0].address_components[6].long_name;
+                //city = data.results[0].address_components[6].long_name;
+                var componentLength = data.results[0].address_components.length
+            for (var i = 0; i < componentLength; i++){
+              if (data.results[0].address_components[i].long_name.length === 5){
+            userLocation = data.results[0].address_components[i].long_name
+          }
+        }
                 console.log(data);
                 // get organization data
                 getOrg();
@@ -48,11 +54,9 @@ area.addEventListener("click", function () {
                   }
                   // good to go to set a Marker on the map
                   console.log(addr);
-
                   var infoText = "Name: " + orgs[i].name;
                   setMarker(addr, infoText,
                      '<div>' + orgs[i].name + '</div>' + '<hr>' + '<span>Phone: ' + orgs[i].phone + '</span>' + '<div>E-mail: ' + orgs[i].email + '</div>');
-
                     }
                     clearInterval(int); // clear the timer and proceed
                   }
@@ -81,7 +85,7 @@ async function getOrg() {
     // console logs token as json, then the api call happens
     console.log("step 2 returning token data");
     console.log('token', data)
-    return fetch('https://api.petfinder.com/v2/organizations?location=' + city, {
+    return fetch('https://api.petfinder.com/v2/organizations?location=' + userLocation, {
       headers: {
         'Authorization': data.token_type + ' ' + data.access_token,
         'Content-Type': 'application/x-www-form-urlencoded'
@@ -249,7 +253,14 @@ function setMarker(address, titleText, htmlContent) {
       request.addEventListener("load", function () {
         var obj = JSON.parse(this.responseText);
         // this is users zip code
-        userLocation = obj.results[0].address_components[6].long_name;
+        var componentLength = obj.results[0].address_components.length
+        for (var i = 0; i < componentLength; i++){
+          if (obj.results[0].address_components[i].long_name.length === 5){
+            userLocation = obj.results[0].address_components[i].long_name
+          }
+        }
+        //alert(componentLength)
+        //userLocation = obj.results[0].address_components[6].long_name;
         console.log(obj);
         console.log("current location = " + userLocation);
         if (userLocation){
@@ -291,22 +302,13 @@ function pageNumber(){
   var pagenumber = $(".page-number")
   pagenumber.text(`Page: ${page}`)
 }
-
 function displayZip(){
   var mapsLocation = $("#userLocation")
     mapsLocation.text(`Your Location : ${userLocation}`)
 }
-
 function loading(){
   $("#loading").text('Loading pets, please wait...')
 }
 loading()
 pageNumber();
 getZip()
-
-
-
-
-
-
-
