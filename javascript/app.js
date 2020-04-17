@@ -249,7 +249,13 @@ function setMarker(address, titleText, htmlContent) {
       request.addEventListener("load", function () {
         var obj = JSON.parse(this.responseText);
         // this is users zip code
-        userLocation = obj.results[0].address_components[6].long_name;
+        var componentLength = obj.results[0].address_components.length
+        for (var i = 0; i < componentLength; i++){
+          if (obj.results[0].address_components[i].long_name.length === 5){
+            userLocation = obj.results[0].address_components[i].long_name
+          }
+        }
+        //userLocation = obj.results[0].address_components[6].long_name;
         console.log(obj);
         console.log("current location = " + userLocation);
         if (userLocation){
