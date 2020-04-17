@@ -48,9 +48,11 @@ area.addEventListener("click", function () {
                   }
                   // good to go to set a Marker on the map
                   console.log(addr);
+
                   var infoText = "Name: " + orgs[i].name;
                   setMarker(addr, infoText,
                      '<div>' + orgs[i].name + '</div>' + '<hr>' + '<span>Phone: ' + orgs[i].phone + '</span>' + '<div>E-mail: ' + orgs[i].email + '</div>');
+
                     }
                     clearInterval(int); // clear the timer and proceed
                   }
@@ -289,13 +291,22 @@ function pageNumber(){
   var pagenumber = $(".page-number")
   pagenumber.text(`Page: ${page}`)
 }
+
 function displayZip(){
   var mapsLocation = $("#userLocation")
     mapsLocation.text(`Your Location : ${userLocation}`)
 }
+
 function loading(){
   $("#loading").text('Loading pets, please wait...')
 }
 loading()
 pageNumber();
 getZip()
+
+
+
+
+
+
+
