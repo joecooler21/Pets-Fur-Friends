@@ -117,3 +117,7 @@ img {
     color:black;
     font-size: 100px;
 }
+
+#info-name {
+    font-weight: bold;
+}
