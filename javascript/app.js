@@ -56,8 +56,32 @@ area.addEventListener("click", function () {
                   console.log(addr);
 
                   var infoText = "Name: " + orgs[i].name;
+                  let name = orgs[i].name;
+                  if (name === null) {
+                    name = 'N/A';
+                  }
+                  let email = orgs[i].email;
+                  if (email === null) {
+                    email = 'N/A';
+                  }
+                  let phone = orgs[i].phone;
+                  if (phone === null) {
+                    phone = 'N/A';
+                  }
+                  let website = orgs[i].website;
+                  if (website === null) {
+                    website = 'N/A';
+                  } else {
+                    website = '<a href="' + website + '">' + website + '</a>';
+                  }
+                  let address = orgs[i].address.address1;
+                  if (address === null) {
+                    address = 'N/A';
+                  }
+                  var infoText = "Name: " + name;
                   setMarker(addr, infoText,
-                     '<div>' + orgs[i].name + '</div>' + '<hr>' + '<span>Phone: ' + orgs[i].phone + '</span>' + '<div>E-mail: ' + orgs[i].email + '</div>');
+
+                    '<div id="info-name">' + name + '</div>' + '<div>Address: ' + address + '</div>' + '<div>Website: ' + website + '</div>' + '<hr>' + '<span>Phone: ' + phone + '</span>' + '<div>E-mail: ' + '<a href="mailto:' + email + '?Subject=Hello%20again" target="_top">' + email + '</a>');
 
                     }
                     clearInterval(int); // clear the timer and proceed
