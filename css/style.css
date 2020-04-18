@@ -2,114 +2,128 @@
     justify-content: center;
     background-color: #78c2ad;
     color: #ffffff;
+    margin-bottom: 0;
 }
+
 .jumbotron h1 {
     color: #ffffff;
 }
-button {
-    margin-top: 0px;
+
+#mainCont {
+  background-color: #ffffff;
+  padding-top: 20px;
 }
-select {
-    margin-bottom: 10px;
-    margin-left: 10px;
-}
-#inputField {
-    justify-content: center;
-    padding-top: 50px;
-}
+
+
 #map-area {
     text-align: center;
     height: 100%;
     width: 100%;
 }
+
 #map {
     width: 550px;
     height: 500px;
     justify-content: center;
     max-width: 100%;
     margin: 0 auto 0 auto;
-  }
-  #img-container {
-      margin-top: 20px;
-      border-color: #78c2ad;
-      border-style: solid;
-      border: 2px;
-  }
-  #pics{
+    border-style: solid;
+    border-color: #78c2ad;
+    border-width: 4px;
+}
+
+#img-container {
+    background-color: #ffffff;
+}
+
+#pics {
       justify-content: center;
       margin:80px;
       text-align: center;
-  }
-  #page{
+}
+
+#page {
       margin: 0 auto 0 auto;
       justify-content: center;
       opacity: inherit;
-  }
-  img{
+}
+
+img {
   margin-top: 40px;
   object-fit: cover;
   object-position: 100% 0;
   width: 200px;
   height: 200px;
   border-radius: 4px;
-  border-style: dotted;
-  border-width: 4px;
-  border-color: lightgray;
+  border-style: solid;
+  border-width: 2px;
+  border-color: #78c2ad;
 }
+
 .footer {
-    display: flex;
-    background-color: #78c2ad;
+    display: block;
+    background-color: #56CC9D;
     color: #ffffff;
     margin-top: 5px;
 }
+
 #pagButtons {
     justify-content: center;
     display: flex;
     color: #ffffff;
 }
+
 #userLocation {
     background-color: #ffffff;
-    color: #888;
+    color: #5a5a5a;
+    font-weight: 400;
+    font-size: 25px;
 }
+
 #jumboH1 {
     background-color: #78c2ad;
 }
+
 #userGender{
     margin-left: 0;
 }
-.page-number{
+
+.page-number {
     margin: 0 auto;
     padding: 0;
     width: 150px;
     height: 40px;
-    color: black;
+    color: #888;
     font-size: 16px;
     text-align: center;
 }
-#userLocation{
-    color: black;
-    font-size: 28px;
-}
-#loading{
+
+#loading {
     display: flex;
     justify-content: center;
-    margin-top: 100px;
-    color:black;
-    font-size: 100px;
+    color: #888;
+    font-size: 50px;
+    background-color: #ffffff;
+    padding-top: 200px;
+
 }
-.card{
+
+.card {
     display: inline-table;
     margin: 10px;
-    width:300px;
-    height:400px;
-    background-color: #78c2ad;
-    border-width: 6px;
-    border-style: groove;
-    border-color: #888;
+    width: 300px;
+    height: 400px;
+    background-color: #ffffff;
+    border-style: solid;
+    border-color: #78c2ad;
+    border-width: 4px;
 }
-.card-info{
-    font-size: 30px;
+
+.card-info {
+    font-size: 20px;
+    color: #888;
 }
+
 #info-name {
     font-weight: bold;
 }

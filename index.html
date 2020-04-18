@@ -1,27 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  
   <!-- Linking Normalize.CSS-->
   <link rel="stylesheet" href="css/normalize.css">
+
   <!--Setting the View-Port-->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <!-- Linking JQUERY CDN-->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
   <!-- BOOTSTRAP 4: Latest Compiled and Minimized CSS-->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+
   <!-- Linking our own CSS-->
   <link rel="stylesheet" href="css/bootstrap.min.css">
   <link rel="stylesheet" href="css/style.css">
-  
   <!-- Linking Google Web Fonts -->
   <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+  
   <!-- Linking Google Firebase Database -->
-  <script src="https://www.gstatic.com/firebasejs/4.8.0/firebase.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/6.0.4/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/6.0.4/firebase-database.js"></script>
+  
   <title>Pets Fur Friends</title>
+
 </head>
+
+<body id="main">
 <body>
+
   <!-- JUMBOTRON -->
   <div class="jumbotron" id="jumbotron">
     <div class="container-fluid text-center">
@@ -31,11 +43,13 @@
         below, fill out your city or ZIP code to link up with local animal shelters in your area! </p>
     </div>
   </div>
-  <!-- End JUMBOTRON -->
-  <!-- Container for Input Form and Map-->
-  <div class="container-fluid">
+  <!-- END JUMBOTRON -->
+
+  <!-- CONTAINER FOR INPUT FORM AND MAP -->
+  <div class="container-fluid" id="mainCont">
     <div class="row">
-      <!-- Input Forms-->
+
+      <!-- Input Forms -->
       <div class="col-lg-6 col-md-6 col-sm-6 text-center">
         <h4 id="inputHead1">Search by State and/or ZIP Code:</h3>
           <form role="form">
@@ -71,7 +85,7 @@
                   Gender:
                 </label>
                 <select type="petAge" class="form-control" id="userGender">
-                  <option value=""></option>
+                  <option value=" "></option>
                   <option value="Male">Male</option>
                   <option value="Female">Female</option>
                 </select>
@@ -81,7 +95,8 @@
               </button>
             </form>
       </div>
-      <!-- Area for Map-->
+
+      <!-- Area for Map -->
       <div class="col-lg-6 col-md-6 col-sm-6" id="map-area">
         <h4 id="userLocation">Your Location By Zip: </h4>
         <div id="map">
@@ -92,15 +107,23 @@
       </div>
     </div>
   </div>
-  <!-- End Container-->
-  <div id="loading"></div>
-  
-  <!-- Container for Pet Images-->
+  <!-- END CONTAINER -->
+
+  <!-- CONTAINER FOR PET IMAGES -->
   <div class="container-fluid" id="img-container">
+
+    <!-- Loading Screen -->
+    <div id="loading">
+      
+    </div>
+    
+    <!-- Div for Pet Image Cards -->
     <div class="row">
       <div class="col-lg-2.4 col-md-2.4 col-sm-2.4" id="pics">
       </div>
     </div>
+    
+    <!-- Pagination -->
     <div class="row">
       <div class="col-lg-12 col-md-12 col-sm-12" id="pagButtons">
         <nav>
@@ -117,20 +140,22 @@
     </div>
     <div class="page-number"></div>
   </div>
-  <!-- End Container-->
-  <!-- Footer -->
+  <!-- END CONTAINER -->
+
+  <!-- FOOTER -->
   <footer class="page-footer font-small" id="footer">
     <div class="footer-copyright text-center py-3">&copy;2020 Fabian Ramirez - Joseph Cooler - Bradley Wilson
-      - Brian Emmons. <br>
-      All Rights Reserved.</div>
+      - Brian Emmons <br>
+      All Rights Reserved</div>
   </footer>
-  <!-- End Footer-->
-  <!-- <a href='https://pngtree.com/so/dog'>dog png from pngtree.com</a> -->
+  <!-- END FOOTER -->
+
   <!-- Linking our JavaScript-->
   <script src="javascript/app.js"></script>
+
   <!-- ASYNC DEFER for Google Maps-->
-  <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAac0W1FcByS8ETCOwZ7_1UXuBbVR89lCc&callback=initMap">
-  </script>
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBc7c_SM6teDzFusELkTEd6P35pCsWjMd8&callback=initMap"></script>
+  
 </body>
+
 </html>
