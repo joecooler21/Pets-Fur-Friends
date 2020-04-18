@@ -250,7 +250,7 @@ function getAnimals() {
       div.append(locDiv)
       pics.append(div)
 
-      if (name.length > 17){
+      if (name.length > 17) {
         nameDiv.removeClass('card-name')
         nameDiv.addClass('card-name-v2')
       }
@@ -262,10 +262,7 @@ function getAnimals() {
     console.log('something went wrong', err);
   });
 }
-// calls both functions
-//getOrg();
-//getAnimals();
-// this button increases the page number and displays new set of pets
+
 $("#page-next").on("click", function () {
   page++
   if (page > totalPages) {
@@ -393,15 +390,12 @@ function loading() {
   loading.append(dogAnimation)
 }
 
-function clear(){
-    $("#userState").val('')
-    $("#userZipCode").val('')
-}
 
-clear()
+
+getZip()
 loading()
 pageNumber();
-getZip()
+
 
 
 
