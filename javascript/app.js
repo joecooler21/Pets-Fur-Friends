@@ -17,6 +17,7 @@ var orgs = []
 var pets = []
 var zip = ''
 var totalPages = ''
+
 var config = {
 
   apiKey: "AIzaSyDitAXjuCRaclQJVq-u8Lj5hXKu376wo0Y",
@@ -63,7 +64,7 @@ function initMap() {
 
 // retrieve google maps API key from firebase then load the map
 database.ref().once('value').then(function (snap) {
-  key = snap.val().gKey;
+  key = 'AIzaSyAac0W1FcByS8ETCOwZ7_1UXuBbVR89lCc'
   var tag = 'https://maps.googleapis.com/maps/api/js?key=' + key + '&callback=initMap';
   var body = document.getElementById("main");
   var ele = document.createElement("script");
@@ -83,7 +84,7 @@ area.addEventListener("click", function () {
       };
       // retrieve api key then fetch geocode data
       database.ref().once('value').then(function (snap) {
-        var key = snap.val().gKey;
+        var key = 'AIzaSyAac0W1FcByS8ETCOwZ7_1UXuBbVR89lCc'
         var url = "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + pos.lat + "," + pos.lng + "&key=" + key;
         fetch(url).then((response) => {
           return response.json();
@@ -214,8 +215,7 @@ function getAnimals() {
     return pets
   }).then(function (data) {
     totalPages = data.pagination.total_pages
-    $("#loading").html("")
-    $("#dog").html("")
+    $("#loading").hide()
     // Log the pet data
     console.log('pets', data);
     pics.html("")
@@ -275,7 +275,7 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
 }
 function setMarker(address, titleText, htmlContent) {
   database.ref().once('value').then(function (snap) {
-    var key = snap.val().gKey;
+    var key = 'AIzaSyAac0W1FcByS8ETCOwZ7_1UXuBbVR89lCc'
     var url = "https://maps.googleapis.com/maps/api/geocode/json?address=" + address + "&key=" + key;
     fetch(url).then(response => {
       return response.json();
@@ -306,7 +306,7 @@ function getZip(callback) {
       };
       // get user location based on coordinates
       database.ref().once('value').then(function (snap) {
-        var key = snap.val().gKey;
+        var key = 'AIzaSyAac0W1FcByS8ETCOwZ7_1UXuBbVR89lCc'
         var url = "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + pos.lat + "," + pos.lng + "&key=" + key;
         fetch(url).then(response => {
           return response.json();
@@ -362,8 +362,12 @@ function displayZip() {
   mapsLocation.text(`Your Location : ${userLocation}`)
 }
 function loading() {
-  $("#loading").text('Loading pets, please wait...')
-  $("#loading").append(dogAnimation)
+  var loading = $("#loading")
+  loading.show()
+  var dogAnimation = $('<img src="images/dog-animation.png">')
+  dogAnimation.addClass('yo')
+  loading.text('Loading pets, please wait...')
+  loading.append(dogAnimation)
 }
 loading()
 pageNumber();
