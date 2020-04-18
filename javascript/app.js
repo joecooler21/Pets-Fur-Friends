@@ -110,6 +110,7 @@ area.addEventListener("click", function () {
                   }
                   // good to go to set a Marker on the map
                   console.log(addr);
+
                   var infoText = "Name: " + orgs[i].name;
                   let name = orgs[i].name;
                   if (name === null) {
@@ -135,7 +136,9 @@ area.addEventListener("click", function () {
                   }
                   var infoText = "Name: " + name;
                   setMarker(addr, infoText,
+
                     '<div id="info-name">' + name + '</div>' + '<div>Address: ' + address + '</div>' + '<div>Website: ' + website + '</div>' + '<hr>' + '<span>Phone: ' + phone + '</span>' + '<div>E-mail: ' + '<a href="mailto:' + email + '?Subject=Hello%20again" target="_top">' + email + '</a>');
+
                 }
                 clearInterval(int); // clear the timer and proceed
               }
@@ -144,6 +147,7 @@ area.addEventListener("click", function () {
           });
       });
     });
+
   }
   // call getOrg so it can fill the global 'orgs' array with organization data
   // iterate through orgs array and set markers on the map for each one
@@ -361,3 +365,10 @@ function loading() {
 loading()
 pageNumber();
 getZip()
+
+
+
+
+
+
+
