@@ -70,7 +70,10 @@ body {
     line-height: 1.5;
     color: #888;
     text-align: left;
-    background-color: #000000
+    background-image: url("../images/dog_and_cat_pattern-08.jpg");
+    background-position: center;
+    background-repeat: repeat;
+    background-size: 500px;
 }
 
 [tabindex="-1"]:focus {
