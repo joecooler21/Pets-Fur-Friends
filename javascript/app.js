@@ -27,7 +27,7 @@ area.addEventListener("click", function () {
         lng: position.coords.longitude
       };
       // get user location based on coordinates
-      var url = "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + pos.lat + "," + pos.lng + "&key=AIzaSyBc7c_SM6teDzFusELkTEd6P35pCsWjMd8";
+      var url = "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + pos.lat + "," + pos.lng + "&key=AIzaSyAac0W1FcByS8ETCOwZ7_1UXuBbVR89lCc";
       fetch(url)
             .then((response) => {
                 return response.json();
@@ -219,7 +219,7 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
   infoWindow.open(map);
 }
 function setMarker(address, titleText, htmlContent) {
-  var url = "https://maps.googleapis.com/maps/api/geocode/json?address=" + address + "&key=AIzaSyBc7c_SM6teDzFusELkTEd6P35pCsWjMd8";
+  var url = "https://maps.googleapis.com/maps/api/geocode/json?address=" + address + "&key=AIzaSyAac0W1FcByS8ETCOwZ7_1UXuBbVR89lCc";
   var request = new XMLHttpRequest();
   request.addEventListener("load", function () {
     // response needs to be formatted for use
@@ -250,7 +250,7 @@ function setMarker(address, titleText, htmlContent) {
         lng: position.coords.longitude
       };
       // get user location based on coordinates
-      var url = "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + pos.lat + "," + pos.lng + "&key=AIzaSyBc7c_SM6teDzFusELkTEd6P35pCsWjMd8";
+      var url = "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + pos.lat + "," + pos.lng + "&key=AIzaSyAac0W1FcByS8ETCOwZ7_1UXuBbVR89lCc";
       var request = new XMLHttpRequest();
       request.addEventListener("load", function () {
         var obj = JSON.parse(this.responseText);
