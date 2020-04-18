@@ -226,32 +226,34 @@ function getAnimals() {
       var nameDiv = $("<div>");
       var ageDiv = $("<div>")
       var locDiv = $("<div>")
+      var disDiv = $("<div>")
       nameDiv.addClass('card-info');
       div.addClass('card');
       var name = data.animals[i].name;
       var age = data.animals[i].age;
       var city = data.animals[i].contact.address.city
       var state = data.animals[i].contact.address.state
+      var distance = data.animals[i].distance
       var picturetag = (data.animals[i].photos[0]?.large || "images/d6e35b19-3dee-41b3-b052-4e7e9db58292_200x200.png");
-      nameDiv.text(name);
-      //ageDiv.text("Age:", " ", age);
-      //locDiv.text(city, ", ", state);
-      div.append('<img src="' + picturetag + '"/>' + "<br>");
-      div.append(nameDiv);
+      var disRound = Math.round(distance);
+      div.append("<br>" + name + "<br>");
+      div.append('<img src="' + picturetag + '"/>' + "<br>" + "<br>");
       pics.append(div);
       div.append(ageDiv);
       div.append(locDiv);
+      div.append(disDiv)
       div.attr("data-url", data.animals[i].url);
       locDiv.append("Age:", " ", age + "<br>");
-      div.append("Location:", " ", city, ", ", state);
-      
-     
-    }
+      div.append("Location:", " ", city, ", ", state + "<br>" + "<br>");
+      disDiv.append("Distance:", " ", disRound + " ", "miles away");
+      }
+    
     $(".card").click(function(){
        window.open($(this).attr("data-url"))
      })
     
     
+
     console.log(results)
   }).catch(function (err) {
     // Log any errors
