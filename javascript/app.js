@@ -224,15 +224,36 @@ function getAnimals() {
     for (var i = 0; i < results; i++) {
       var div = $("<div>")
       var nameDiv = $("<div>")
-      nameDiv.addClass('card-info')
+      var ageDiv = $("<div>")
+      var distanceDiv = $("<div>")
+      var locDiv = $("<div>")
+      nameDiv.addClass('card-name')
+      ageDiv.addClass('card-info')
+      distanceDiv.addClass('card-info')
+      locDiv.addClass('card-info')
       div.addClass('card')
       var name = data.animals[i].name
+      var age = data.animals[i].age
+      var distance = Math.floor(data.animals[i].distance)
+      var state = data.animals[i].contact.address.state
+      var city = data.animals[i].contact.address.city
       var picturetag = (data.animals[i].photos[0]?.large || "images/d6e35b19-3dee-41b3-b052-4e7e9db58292_200x200.png")
       var animalPics = '<img src="' + picturetag + '"/>'
       div.append(animalPics)
       nameDiv.text(name)
+      ageDiv.text(`Age: ${age}`)
+      distanceDiv.text(`Distance: ${distance} miles away`)
+      locDiv.text(`${city}, ${state}`)
       div.append(nameDiv)
+      div.append(ageDiv)
+      div.append(distanceDiv)
+      div.append(locDiv)
       pics.append(div)
+
+      if (name.length > 17){
+        nameDiv.removeClass('card-name')
+        nameDiv.addClass('card-name-v2')
+      }
     }
     console.log(results)
   }).catch(function (err) {
@@ -349,6 +370,8 @@ submit.addEventListener("click", function (e) {
   type = $("#userAnimal").val().trim()
   breed = $("#userBreed").val().trim()
   gender = $("#userGender").val()
+  $("#userState").val('')
+  $("#userZipCode").val('')
   pics.html("")
   loading();
   getAnimals();
@@ -369,6 +392,13 @@ function loading() {
   loading.text('Loading pets, please wait...')
   loading.append(dogAnimation)
 }
+
+function clear(){
+    $("#userState").val('')
+    $("#userZipCode").val('')
+}
+
+clear()
 loading()
 pageNumber();
 getZip()

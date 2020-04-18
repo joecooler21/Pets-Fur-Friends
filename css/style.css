@@ -131,3 +131,14 @@ img {
 .yo{
     border-style: hidden;
 }
+
+.card-name{
+    font-size: 28px;
+    color: rgb(120, 118, 118);
+}
+
+.card-name-v2{
+    font-size: 22px;
+    font-weight: bolder;
+    color: rgb(120, 118, 118);
+}
