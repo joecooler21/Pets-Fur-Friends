@@ -17,7 +17,6 @@ var orgs = []
 var pets = []
 var zip = ''
 var totalPages = ''
-
 var config = {
 
   apiKey: "AIzaSyDitAXjuCRaclQJVq-u8Lj5hXKu376wo0Y",
@@ -215,6 +214,7 @@ function getAnimals() {
     return pets
   }).then(function (data) {
     totalPages = data.pagination.total_pages
+    $("#loading").html("")
     $("#loading").hide()
     // Log the pet data
     console.log('pets', data);
@@ -222,39 +222,39 @@ function getAnimals() {
     var results = data.animals.length
     //div.addClass('card')
     for (var i = 0; i < results; i++) {
-      var div = $("<div>")
-      var nameDiv = $("<div>")
+      //console.log(results[i]);
+      var div = $("<div>");
+      var nameDiv = $("<div>");
       var ageDiv = $("<div>")
-      var distanceDiv = $("<div>")
       var locDiv = $("<div>")
-      nameDiv.addClass('card-name')
-      ageDiv.addClass('card-info')
-      distanceDiv.addClass('card-info')
-      locDiv.addClass('card-info')
-      div.addClass('card')
-      var name = data.animals[i].name
-      var age = data.animals[i].age
-      var distance = Math.floor(data.animals[i].distance)
-      var state = data.animals[i].contact.address.state
+      var disDiv = $("<div>")
+      nameDiv.addClass('card-info');
+      div.addClass('card');
+      var name = data.animals[i].name;
+      var age = data.animals[i].age;
       var city = data.animals[i].contact.address.city
-      var picturetag = (data.animals[i].photos[0]?.large || "images/d6e35b19-3dee-41b3-b052-4e7e9db58292_200x200.png")
-      var animalPics = '<img src="' + picturetag + '"/>'
-      div.append(animalPics)
-      nameDiv.text(name)
-      ageDiv.text(`Age: ${age}`)
-      distanceDiv.text(`Distance: ${distance} miles away`)
-      locDiv.text(`${city}, ${state}`)
-      div.append(nameDiv)
-      div.append(ageDiv)
-      div.append(distanceDiv)
-      div.append(locDiv)
-      pics.append(div)
-
-      if (name.length > 17) {
-        nameDiv.removeClass('card-name')
-        nameDiv.addClass('card-name-v2')
+      var state = data.animals[i].contact.address.state
+      var distance = data.animals[i].distance
+      var picturetag = (data.animals[i].photos[0]?.large || "images/d6e35b19-3dee-41b3-b052-4e7e9db58292_200x200.png");
+      var disRound = Math.round(distance);
+      div.append("<br>" + name + "<br>");
+      div.append('<img src="' + picturetag + '"/>' + "<br>" + "<br>");
+      pics.append(div);
+      div.append(ageDiv);
+      div.append(locDiv);
+      div.append(disDiv)
+      div.attr("data-url", data.animals[i].url);
+      locDiv.append("Age:", " ", age + "<br>");
+      div.append("Location:", " ", city, ", ", state + "<br>" + "<br>");
+      disDiv.append("Distance:", " ", disRound + " ", "miles away");
       }
-    }
+    
+    $(".card").click(function(){
+       window.open($(this).attr("data-url"))
+     })
+    
+    
+
     console.log(results)
   }).catch(function (err) {
     // Log any errors
@@ -262,7 +262,10 @@ function getAnimals() {
     console.log('something went wrong', err);
   });
 }
-
+// calls both functions
+//getOrg();
+//getAnimals();
+// this button increases the page number and displays new set of pets
 $("#page-next").on("click", function () {
   page++
   if (page > totalPages) {
@@ -367,8 +370,6 @@ submit.addEventListener("click", function (e) {
   type = $("#userAnimal").val().trim()
   breed = $("#userBreed").val().trim()
   gender = $("#userGender").val()
-  $("#userState").val('')
-  $("#userZipCode").val('')
   pics.html("")
   loading();
   getAnimals();
@@ -390,16 +391,6 @@ function loading() {
   loading.append(dogAnimation)
 }
 
-
-
-getZip()
 loading()
 pageNumber();
-
-
-
-
-
-
-
-
+getZip()
