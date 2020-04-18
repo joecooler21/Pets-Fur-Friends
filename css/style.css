@@ -139,4 +139,8 @@ img {
     margin:30px;
   }
 
-  
+  .yo{
+      width: 200px;
+      height: 200px;
+      border-style: none;
+  }

@@ -215,6 +215,7 @@ function getAnimals() {
   }).then(function (data) {
     totalPages = data.pagination.total_pages
     $("#loading").html("")
+    $("#loading").hide()
     // Log the pet data
     console.log('pets', data);
     pics.html("")
@@ -382,15 +383,14 @@ function displayZip() {
   mapsLocation.text(`Your Location : ${userLocation}`)
 }
 function loading() {
-  $("#loading").text('Loading pets, please wait...')
+  var loading = $("#loading")
+  loading.show()
+  var dogAnimation = $('<img src="images/dog-animation.png">')
+  dogAnimation.addClass('yo')
+  loading.text('Loading pets, please wait...')
+  loading.append(dogAnimation)
 }
+
 loading()
 pageNumber();
 getZip()
-
-
-
-
-
-
-
