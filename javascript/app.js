@@ -64,7 +64,7 @@ function initMap() {
 
 // retrieve google maps API key from firebase then load the map
 database.ref().once('value').then(function (snap) {
-  key = 'AIzaSyAac0W1FcByS8ETCOwZ7_1UXuBbVR89lCc'
+  key = snap.val().gKey;
   var tag = 'https://maps.googleapis.com/maps/api/js?key=' + key + '&callback=initMap';
   var body = document.getElementById("main");
   var ele = document.createElement("script");
@@ -84,7 +84,7 @@ area.addEventListener("click", function () {
       };
       // retrieve api key then fetch geocode data
       database.ref().once('value').then(function (snap) {
-        var key = 'AIzaSyAac0W1FcByS8ETCOwZ7_1UXuBbVR89lCc'
+        var key = snap.val().gKey;
         var url = "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + pos.lat + "," + pos.lng + "&key=" + key;
         fetch(url).then((response) => {
           return response.json();
@@ -203,7 +203,7 @@ function getAnimals() {
     return resp.json();
   }).then(function (data) {
     // makes api call with search parameters
-    return fetch('https://api.petfinder.com/v2/animals?location=' + userLocation + '&limit=8' + '&type=' + type + '&breed=' + breed + '&gender=' + gender + '&page=' + page, {
+    return fetch('https://api.petfinder.com/v2/animals?location=' + userLocation + '&limit=9' + '&type=' + type + '&breed=' + breed + '&gender=' + gender + '&page=' + page, {
       headers: {
         'Authorization': data.token_type + ' ' + data.access_token,
         'Content-Type': 'application/x-www-form-urlencoded'
@@ -258,7 +258,7 @@ function getAnimals() {
     console.log(results)
   }).catch(function (err) {
     // Log any errors
-    alert('Woops! Looks like you\'ve entered an invalid seach parameter. Please try your search again using a different key word.')
+    alert('Whoops! Looks like you\'ve entered an invalid search parameter. Please try your search again using a different key word.')
     console.log('something went wrong', err);
   });
 }
@@ -293,7 +293,7 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
 }
 function setMarker(address, titleText, htmlContent) {
   database.ref().once('value').then(function (snap) {
-    var key = 'AIzaSyAac0W1FcByS8ETCOwZ7_1UXuBbVR89lCc'
+    var key = snap.val().gKey;
     var url = "https://maps.googleapis.com/maps/api/geocode/json?address=" + address + "&key=" + key;
     fetch(url).then(response => {
       return response.json();
@@ -324,7 +324,7 @@ function getZip(callback) {
       };
       // get user location based on coordinates
       database.ref().once('value').then(function (snap) {
-        var key = 'AIzaSyAac0W1FcByS8ETCOwZ7_1UXuBbVR89lCc'
+        var key = snap.val().gKey;
         var url = "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + pos.lat + "," + pos.lng + "&key=" + key;
         fetch(url).then(response => {
           return response.json();
