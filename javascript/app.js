@@ -17,37 +17,93 @@ var orgs = []
 var pets = []
 var zip = ''
 var totalPages = ''
-area.addEventListener("click", function () {
-  orgs = []; // make sure to empty organization data so we don't bring the info from the previous call
-  // get user coordinates
-   if (navigator.geolocation) {
+var config = {
+
+  apiKey: "AIzaSyDitAXjuCRaclQJVq-u8Lj5hXKu376wo0Y",
+  authDomain: "wisc-lc-cd1c2.firebaseapp.com",
+  databaseURL: "https://wisc-lc-cd1c2.firebaseio.com",
+  projectId: "wisc-lc-cd1c2",
+  storageBucket: "wisc-lc-cd1c2.appspot.com",
+};
+
+// initialize firebase
+firebase.initializeApp(config);
+var database = firebase.database();
+
+function initMap() {
+  map = new google.maps.Map(document.getElementById('map'), {
+    center: { lat: -34.397, lng: 150.644 },
+    zoom: 6
+  });
+  infoWindow = new google.maps.InfoWindow;
+  // Try HTML5 geolocation.
+  if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(function (position) {
       var pos = {
         lat: position.coords.latitude,
         lng: position.coords.longitude
       };
-      // get user location based on coordinates
-      var url = "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + pos.lat + "," + pos.lng + "&key=AIzaSyBc7c_SM6teDzFusELkTEd6P35pCsWjMd8";
-      fetch(url)
-            .then((response) => {
-                return response.json();
-            })
-            .then((data) => {
-                //city = data.results[0].address_components[6].long_name;
-                var componentLength = data.results[0].address_components.length
-            for (var i = 0; i < componentLength; i++){
-              if (data.results[0].address_components[i].long_name.length === 5){
-            userLocation = data.results[0].address_components[i].long_name
-          }
-        }
-                console.log(data);
-                // get organization data
-                getOrg();
-                var int = setInterval(function(){ // every 1/10th of a second, check to see if orgs has been populated with data
-                  if (orgs.length > 0) {
-                    for (i = 0; i < orgs.length; i++) {
-                      var addr = orgs[i].address.address1;
-                  if(addr === null) {
+      /* infoWindow.setPosition(pos);
+      infoWindow.setContent('Location found.');
+      infoWindow.open(map); */
+      map.setCenter(pos);
+      var marker = new google.maps.Marker({
+        position: pos,
+        map: map,
+        title: "You are here"
+      });
+    }, function () {
+      handleLocationError(true, infoWindow, map.getCenter());
+    });
+  } else {
+    // Browser doesn't support Geolocation
+    handleLocationError(false, infoWindow, map.getCenter());
+  }
+};
+
+// retrieve google maps API key from firebase then load the map
+database.ref().once('value').then(function (snap) {
+  key = snap.val().gKey;
+  var tag = 'https://maps.googleapis.com/maps/api/js?key=' + key + '&callback=initMap';
+  var body = document.getElementById("main");
+  var ele = document.createElement("script");
+  ele.setAttribute("src", tag);
+  body.appendChild(ele);
+});
+
+
+area.addEventListener("click", function () {
+  orgs = []; // make sure to empty organization data so we don't bring the info from the previous call
+  // get user coordinates
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function (position) {
+      var pos = {
+        lat: position.coords.latitude,
+        lng: position.coords.longitude
+      };
+      // retrieve api key then fetch geocode data
+      database.ref().once('value').then(function (snap) {
+        var key = snap.val().gKey;
+        var url = "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + pos.lat + "," + pos.lng + "&key=" + key;
+        fetch(url).then((response) => {
+          return response.json();
+        })
+          .then((data) => {
+            //city = data.results[0].address_components[6].long_name;
+            var componentLength = data.results[0].address_components.length
+            for (var i = 0; i < componentLength; i++) {
+              if (data.results[0].address_components[i].long_name.length === 5) {
+                userLocation = data.results[0].address_components[i].long_name
+              }
+            }
+            console.log(data);
+            // get organization data
+            getOrg();
+            var int = setInterval(function () { // every 1/10th of a second, check to see if orgs has been populated with data
+              if (orgs.length > 0) {
+                for (i = 0; i < orgs.length; i++) {
+                  var addr = orgs[i].address.address1;
+                  if (addr === null) {
                     addr = orgs[i].address.postcode;
                   } else { // if address line exists, we'll use both the address line and zip
                     addr = orgs[i].address.address1 + ", " + orgs[i].address.postcode;
@@ -83,13 +139,15 @@ area.addEventListener("click", function () {
 
                     '<div id="info-name">' + name + '</div>' + '<div>Address: ' + address + '</div>' + '<div>Website: ' + website + '</div>' + '<hr>' + '<span>Phone: ' + phone + '</span>' + '<div>E-mail: ' + '<a href="mailto:' + email + '?Subject=Hello%20again" target="_top">' + email + '</a>');
 
-                    }
-                    clearInterval(int); // clear the timer and proceed
-                  }
-                }, 100);
-                map.zoom = 8;
-            })
-    }); 
+                }
+                clearInterval(int); // clear the timer and proceed
+              }
+            }, 100);
+            map.zoom = 8;
+          });
+      });
+    });
+
   }
   // call getOrg so it can fill the global 'orgs' array with organization data
   // iterate through orgs array and set markers on the map for each one
@@ -132,7 +190,7 @@ async function getOrg() {
   })
 }
 // Adds function that makes API call to return Animals object as json object
- function getAnimals() {
+function getAnimals() {
   fetch('https://api.petfinder.com/v2/oauth2/token', {
     method: 'POST',
     body: 'grant_type=client_credentials&client_id=' + APIKey + '&client_secret=' + secret,
@@ -142,7 +200,7 @@ async function getOrg() {
   }).then(function (resp) {
     // Return the response as JSON
     return resp.json();
-}).then(function (data) {
+  }).then(function (data) {
     // makes api call with search parameters
     return fetch('https://api.petfinder.com/v2/animals?location=' + userLocation + '&limit=8' + '&type=' + type + '&breed=' + breed + '&gender=' + gender + '&page=' + page, {
       headers: {
@@ -187,7 +245,7 @@ async function getOrg() {
 // this button increases the page number and displays new set of pets
 $("#page-next").on("click", function () {
   page++
-  if (page > totalPages){
+  if (page > totalPages) {
     page = totalPages
   }
   pics.html("")
@@ -197,7 +255,7 @@ $("#page-next").on("click", function () {
 })
 $("#page-previous").on("click", function () {
   page--
-  if (page < 1){
+  if (page < 1) {
     page = 1
   }
   pics.html("")
@@ -205,36 +263,7 @@ $("#page-previous").on("click", function () {
   getAnimals()
   pageNumber();
 })
-function initMap() {
-  map = new google.maps.Map(document.getElementById('map'), {
-    center: { lat: -34.397, lng: 150.644 },
-    zoom: 6
-  });
-  infoWindow = new google.maps.InfoWindow;
-  // Try HTML5 geolocation.
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(function (position) {
-      var pos = {
-        lat: position.coords.latitude,
-        lng: position.coords.longitude
-      };
-      /* infoWindow.setPosition(pos);
-      infoWindow.setContent('Location found.');
-      infoWindow.open(map); */
-      map.setCenter(pos);
-      var marker = new google.maps.Marker({
-        position: pos,
-        map: map,
-        title: "You are here"
-      });
-    }, function () {
-      handleLocationError(true, infoWindow, map.getCenter());
-    });
-  } else {
-    // Browser doesn't support Geolocation
-    handleLocationError(false, infoWindow, map.getCenter());
-  }
-};
+
 function handleLocationError(browserHasGeolocation, infoWindow, pos) {
   infoWindow.setPosition(pos);
   infoWindow.setContent(browserHasGeolocation ?
@@ -243,29 +272,29 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
   infoWindow.open(map);
 }
 function setMarker(address, titleText, htmlContent) {
-  var url = "https://maps.googleapis.com/maps/api/geocode/json?address=" + address + "&key=AIzaSyBc7c_SM6teDzFusELkTEd6P35pCsWjMd8";
-  var request = new XMLHttpRequest();
-  request.addEventListener("load", function () {
-    // response needs to be formatted for use
-    var obj = JSON.parse(this.responseText);
-    // get address lat & lng coordinates
-    var coords = obj.results[0].geometry.location;
-    map.setCenter(coords);
-    var marker = new google.maps.Marker({
-      position: coords,
-      map: map,
-      title: titleText
+  database.ref().once('value').then(function (snap) {
+    var key = snap.val().gKey;
+    var url = "https://maps.googleapis.com/maps/api/geocode/json?address=" + address + "&key=" + key;
+    fetch(url).then(response => {
+      return response.json();
+    }).then(data => {
+      var coords = data.results[0].geometry.location;
+      map.setCenter(coords);
+      var marker = new google.maps.Marker({
+        position: coords,
+        map: map,
+        title: titleText
+      });
+      marker.addListener('click', function () {
+        infoWindow.setPosition(coords);
+        infoWindow.setContent(htmlContent);
+        infoWindow.open(map);
+      });
     });
-    marker.addListener('click', function() {
-    infoWindow.setPosition(coords);
-    infoWindow.setContent(htmlContent);
-    infoWindow.open(map);
-    });
-  });
-  request.open("GET", url);
-  request.send();
+
+  })
 }
-  function getZip (callback) {
+function getZip(callback) {
   // get user coordinates
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(function (position) {
@@ -274,45 +303,44 @@ function setMarker(address, titleText, htmlContent) {
         lng: position.coords.longitude
       };
       // get user location based on coordinates
-      var url = "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + pos.lat + "," + pos.lng + "&key=AIzaSyBc7c_SM6teDzFusELkTEd6P35pCsWjMd8";
-      var request = new XMLHttpRequest();
-      request.addEventListener("load", function () {
-        var obj = JSON.parse(this.responseText);
-        // this is users zip code
-        var componentLength = obj.results[0].address_components.length
-        for (var i = 0; i < componentLength; i++){
-          if (obj.results[0].address_components[i].long_name.length === 5){
-            userLocation = obj.results[0].address_components[i].long_name
+      database.ref().once('value').then(function (snap) {
+        var key = snap.val().gKey;
+        var url = "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + pos.lat + "," + pos.lng + "&key=" + key;
+        fetch(url).then(response => {
+          return response.json();
+        }).then(data => {
+          var componentLength = data.results[0].address_components.length
+          for (var i = 0; i < componentLength; i++) {
+            if (data.results[0].address_components[i].long_name.length === 5) {
+              userLocation = data.results[0].address_components[i].long_name;
+              console.log(data);
+              console.log("current location = " + userLocation);
+              if (userLocation) {
+                displayZip()
+                getAnimals()
+              }
+            }
           }
-        }
-        //userLocation = obj.results[0].address_components[6].long_name;
-        console.log(obj);
-        console.log("current location = " + userLocation);
-        if (userLocation){
-          displayZip()
-          getAnimals()
-        }
+        });
       });
-      request.open("GET", url);
-      request.send();
     });
   }
- }
+}
 submit.addEventListener("click", function (e) {
   e.preventDefault();
-  if (page > 1){
+  if (page > 1) {
     page = 1
     pageNumber()
   }
   state = $("#userState").val().trim().toUpperCase();
   zip = $("#userZipCode").val().trim()
-  if (!zip && !state){
+  if (!zip && !state) {
     zip = userLocation
-  }else if (!zip){
+  } else if (!zip) {
     userLocation = state
-  }else if (!state){
+  } else if (!state) {
     userLocation = zip
-  }else{
+  } else {
     userLocation = zip + ',' + ' ' + state
   }
   alert(userLocation)
@@ -323,15 +351,15 @@ submit.addEventListener("click", function (e) {
   loading();
   getAnimals();
 });
-function pageNumber(){
+function pageNumber() {
   var pagenumber = $(".page-number")
   pagenumber.text(`Page: ${page}`)
 }
-function displayZip(){
+function displayZip() {
   var mapsLocation = $("#userLocation")
-    mapsLocation.text(`Your Location : ${userLocation}`)
+  mapsLocation.text(`Your Location : ${userLocation}`)
 }
-function loading(){
+function loading() {
   $("#loading").text('Loading pets, please wait...')
 }
 loading()

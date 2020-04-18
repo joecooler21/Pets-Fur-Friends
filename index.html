@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -24,11 +25,14 @@
   <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
   
   <!-- Linking Google Firebase Database -->
-  <script src="https://www.gstatic.com/firebasejs/4.8.0/firebase.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/6.0.4/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/6.0.4/firebase-database.js"></script>
   
   <title>Pets Fur Friends</title>
 
 </head>
+
+<body id="main">
 <body>
 
   <!-- JUMBOTRON -->
@@ -46,7 +50,7 @@
   <div class="container-fluid" id="mainCont">
     <div class="row">
 
-      <!-- Input Forms-->
+      <!-- Input Forms -->
       <div class="col-lg-6 col-md-6 col-sm-6 text-center">
         <h4 id="inputHead1">Search by State and/or ZIP Code:</h3>
           <form role="form">
@@ -93,7 +97,7 @@
             </form>
       </div>
 
-      <!-- Area for Map-->
+      <!-- Area for Map -->
       <div class="col-lg-6 col-md-6 col-sm-6" id="map-area">
         <h4 id="userLocation">Your Location By Zip: </h4>
         <div id="map">
@@ -109,12 +113,12 @@
   <!-- CONTAINER FOR PET IMAGES -->
   <div class="container-fluid" id="img-container">
 
-    <!-- LOADING SCREEN -->
+    <!-- Loading Screen -->
     <div id="loading">
       
     </div>
-    <!-- END LOADING SCREEN -->
-
+    
+    <!-- Div for Pet Image Cards -->
     <div class="row">
       <div class="col-lg-2.4 col-md-2.4 col-sm-2.4" id="pics">
       </div>
@@ -151,9 +155,8 @@
   <script src="javascript/app.js"></script>
 
   <!-- ASYNC DEFER for Google Maps-->
-  <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBc7c_SM6teDzFusELkTEd6P35pCsWjMd8&callback=initMap">
-  </script>
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBc7c_SM6teDzFusELkTEd6P35pCsWjMd8&callback=initMap"></script>
   
 </body>
+
 </html>
