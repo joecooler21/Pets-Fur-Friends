@@ -202,7 +202,7 @@ function getAnimals() {
     return resp.json();
   }).then(function (data) {
     // makes api call with search parameters
-    return fetch('https://api.petfinder.com/v2/animals?location=' + userLocation + '&limit=8' + '&type=' + type + '&breed=' + breed + '&gender=' + gender + '&page=' + page, {
+    return fetch('https://api.petfinder.com/v2/animals?location=' + userLocation + '&limit=9' + '&type=' + type + '&breed=' + breed + '&gender=' + gender + '&page=' + page, {
       headers: {
         'Authorization': data.token_type + ' ' + data.access_token,
         'Content-Type': 'application/x-www-form-urlencoded'
@@ -221,21 +221,41 @@ function getAnimals() {
     var results = data.animals.length
     //div.addClass('card')
     for (var i = 0; i < results; i++) {
-      var div = $("<div>")
-      var nameDiv = $("<div>")
-      nameDiv.addClass('card-info')
-      div.addClass('card')
-      var name = data.animals[i].name
-      var picturetag = (data.animals[i].photos[0]?.large || "images/d6e35b19-3dee-41b3-b052-4e7e9db58292_200x200.png")
-      div.append('<img src="' + picturetag + '"/>')
-      nameDiv.text(name)
-      div.append(nameDiv)
-      pics.append(div)
+      //console.log(results[i]);
+      var div = $("<div>");
+      var nameDiv = $("<div>");
+      var ageDiv = $("<div>")
+      var locDiv = $("<div>")
+      nameDiv.addClass('card-info');
+      div.addClass('card');
+      var name = data.animals[i].name;
+      var age = data.animals[i].age;
+      var city = data.animals[i].contact.address.city
+      var state = data.animals[i].contact.address.state
+      var picturetag = (data.animals[i].photos[0]?.large || "images/d6e35b19-3dee-41b3-b052-4e7e9db58292_200x200.png");
+      nameDiv.text(name);
+      //ageDiv.text("Age:", " ", age);
+      //locDiv.text(city, ", ", state);
+      div.append('<img src="' + picturetag + '"/>' + "<br>");
+      div.append(nameDiv);
+      pics.append(div);
+      div.append(ageDiv);
+      div.append(locDiv);
+      div.attr("data-url", data.animals[i].url);
+      locDiv.append("Age:", " ", age + "<br>");
+      div.append("Location:", " ", city, ", ", state);
+      
+     
     }
+    $(".card").click(function(){
+       window.open($(this).attr("data-url"))
+     })
+    
+    
     console.log(results)
   }).catch(function (err) {
     // Log any errors
-    alert('Woops! Looks like you\'ve entered an invalid seach parameter. Please try your search again using a different key word.')
+    alert('Whoops! Looks like you\'ve entered an invalid search parameter. Please try your search again using a different key word.')
     console.log('something went wrong', err);
   });
 }
