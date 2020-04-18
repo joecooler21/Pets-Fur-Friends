@@ -12,8 +12,27 @@
 #mainCont {
   background-color: #ffffff;
   padding-top: 20px;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 80em;
+  width: 100%;
 }
 
+#img-Container {
+background-color: #ffffff;
+margin-left: auto;
+margin-right: auto;
+max-width: 80em;
+width: 100%;
+}
+
+#loading {
+background-color: #ffffff;
+margin-left: auto;
+margin-right: auto;
+max-width: 80em;
+width: 100%;
+}
 
 #map-area {
     text-align: center;
@@ -33,19 +52,31 @@
 }
 
 #img-container {
+    
     background-color: #ffffff;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 80em;
+    width: 100%;
+    
 }
 
 #pics {
-      justify-content: center;
-      margin:80px;
-      text-align: center;
+    justify-content: center;
+    margin:80px;
+    text-align: center;
+    background-color: #ffffff;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 80em;
+    width: 100%;
+
 }
 
 #page {
-      margin: 0 auto 0 auto;
-      justify-content: center;
-      opacity: inherit;
+    margin: 0 auto 0 auto;
+    justify-content: center;
+    opacity: inherit;
 }
 
 img {
