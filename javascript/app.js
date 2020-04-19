@@ -19,6 +19,7 @@ var zip = ''
 var distance = 100
 
 var totalPages = ''
+var markers = [];
 var config = {
 
   apiKey: "AIzaSyDitAXjuCRaclQJVq-u8Lj5hXKu376wo0Y",
@@ -35,7 +36,10 @@ var database = firebase.database();
 function initMap() {
   map = new google.maps.Map(document.getElementById('map'), {
     center: { lat: -34.397, lng: 150.644 },
-    zoom: 6
+    zoom: 6,
+    zoomControl: false,
+    fullscreenControl: false,
+    streetViewControl: false
   });
   infoWindow = new google.maps.InfoWindow;
   // Try HTML5 geolocation.
@@ -45,15 +49,13 @@ function initMap() {
         lat: position.coords.latitude,
         lng: position.coords.longitude
       };
-      /* infoWindow.setPosition(pos);
-      infoWindow.setContent('Location found.');
-      infoWindow.open(map); */
       map.setCenter(pos);
       var marker = new google.maps.Marker({
         position: pos,
         map: map,
         title: "You are here"
       });
+      markers.push(marker);
     }, function () {
       handleLocationError(true, infoWindow, map.getCenter());
     });
@@ -76,6 +78,13 @@ database.ref().once('value').then(function (snap) {
 
 area.addEventListener("click", function () {
   orgs = []; // make sure to empty organization data so we don't bring the info from the previous call
+  if (markers.length > 0){
+    for (i = 0; i < markers.length; i++) {
+      markers[i].setMap(null);
+      markers[i] = null;
+    }
+    markers = [];
+  }
   // get user coordinates
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(function (position) {
@@ -110,7 +119,6 @@ area.addEventListener("click", function () {
                     addr = orgs[i].address.address1 + ", " + orgs[i].address.postcode;
                   }
                   // good to go to set a Marker on the map
-                  console.log(addr);
 
                   var infoText = "Name: " + orgs[i].name;
                   let name = orgs[i].name;
@@ -138,7 +146,7 @@ area.addEventListener("click", function () {
                   var infoText = "Name: " + name;
                   setMarker(addr, infoText,
 
-                    '<div id="info-name">' + name + '</div>' + '<div>Address: ' + address + '</div>' + '<div>Website: ' + website + '</div>' + '<hr>' + '<span>Phone: ' + phone + '</span>' + '<div>E-mail: ' + '<a href="mailto:' + email + '?Subject=Hello%20again" target="_top">' + email + '</a>');
+                    '<div id="info-name">' + name + '</div>' + '<hr>' +  '<div>Address: ' + address + '</div>' + '<div>Website: ' + website + '</div>' + '<span>Phone: ' + phone + '</span>' + '<div>E-mail: ' + '<a href="mailto:' + email + '?Subject=" target="_top">' + email + '</a>');
 
                 }
                 clearInterval(int); // clear the timer and proceed
@@ -150,9 +158,6 @@ area.addEventListener("click", function () {
     });
 
   }
-  // call getOrg so it can fill the global 'orgs' array with organization data
-  // iterate through orgs array and set markers on the map for each one
-  // the problem here is that 'orgs' is still an empty array at this point, since getOrg() hasn't fully finished setting the data
 });
 async function getOrg() {
   fetch('https://api.petfinder.com/v2/oauth2/token', {
@@ -163,12 +168,10 @@ async function getOrg() {
     }
   }).then(function (resp) {
     // Return the response as JSON
-    console.log("step 1 returning json");
     orgs = resp.json();
     return orgs;
   }).then(function (data) {
     // console logs token as json, then the api call happens
-    console.log("step 2 returning token data");
     console.log('token', data)
     return fetch('https://api.petfinder.com/v2/organizations?location=' + userLocation, {
       headers: {
@@ -178,11 +181,9 @@ async function getOrg() {
     });
   }).then(function (resp) {
     // Return the API response as JSON and sets orgs to the response, returns it
-    console.log("step 3 returning response");
     return (resp.json());
   }).then(function (data) {
     // Log the pet data
-    console.log("step 4 we have our data now");
     orgs = data.organizations;
     console.log('orgs', data);
   }).catch(function (err) {
@@ -203,7 +204,7 @@ function getAnimals() {
     return resp.json();
   }).then(function (data) {
     // makes api call with search parameters
-    return fetch('https://api.petfinder.com/v2/animals?location=' + userLocation + '&distance=' + distance + '&limit=9' + '&type=' + type + '&breed=' + breed + '&gender=' + gender + '&page=' + page, {
+    return fetch('https://api.petfinder.com/v2/animals?location=' + userLocation + '&distance=' + distance + '&limit=8' + '&type=' + type + '&breed=' + breed + '&gender=' + gender + '&page=' + page, {
       headers: {
         'Authorization': data.token_type + ' ' + data.access_token,
         'Content-Type': 'application/x-www-form-urlencoded'
@@ -340,6 +341,7 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
 function setMarker(address, titleText, htmlContent) {
   database.ref().once('value').then(function (snap) {
     var key = snap.val().gKey;
+
     var url = "https://maps.googleapis.com/maps/api/geocode/json?address=" + address + "&key=" + key;
     fetch(url).then(response => {
       return response.json();
@@ -351,6 +353,7 @@ function setMarker(address, titleText, htmlContent) {
         map: map,
         title: titleText
       });
+      markers.push(marker);
       marker.addListener('click', function () {
         infoWindow.setPosition(coords);
         infoWindow.setContent(htmlContent);
@@ -394,12 +397,28 @@ function getZip(callback) {
 }
 submit.addEventListener("click", function (e) {
   e.preventDefault();
+  if (markers.length > 0) {
+    for (i = 0; i < markers.length; i++) {
+      markers[i].setMap(null);
+      markers[i] = null;
+    }
+    markers = [];
+  }
   if (page > 1) {
     page = 1
     pageNumber()
   }
   state = $("#userState").val().trim().toUpperCase();
   zip = $("#userZipCode").val().trim()
+  
+  if (zip && state) { // move cursor based on user input
+    setMarker(state + ", " + zip, null, zip);
+  } else if (!zip && state) {
+    setMarker(state, null, state);
+  } else if (zip && !state){
+    setMarker(zip, null, zip);
+  }
+
   if (!zip && !state) {
     zip = userLocation
   } else if (!zip) {
