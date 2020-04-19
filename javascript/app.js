@@ -17,6 +17,7 @@ var orgs = []
 var pets = []
 var zip = ''
 var totalPages = ''
+var markers = [];
 var config = {
 
   apiKey: "AIzaSyDitAXjuCRaclQJVq-u8Lj5hXKu376wo0Y",
@@ -52,6 +53,7 @@ function initMap() {
         map: map,
         title: "You are here"
       });
+      markers.push(marker);
     }, function () {
       handleLocationError(true, infoWindow, map.getCenter());
     });
@@ -75,6 +77,13 @@ database.ref().once('value').then(function (snap) {
 
 area.addEventListener("click", function () {
   orgs = []; // make sure to empty organization data so we don't bring the info from the previous call
+  if (markers.length > 0){
+    for (i = 0; i < markers.length; i++) {
+      markers[i].setMap(null);
+      markers[i] = null;
+    }
+    markers = [];
+  }
   // get user coordinates
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(function (position) {
@@ -204,7 +213,7 @@ function getAnimals() {
     return resp.json();
   }).then(function (data) {
     // makes api call with search parameters
-    return fetch('https://api.petfinder.com/v2/animals?location=' + userLocation + '&limit=9' + '&type=' + type + '&breed=' + breed + '&gender=' + gender + '&page=' + page, {
+    return fetch('https://api.petfinder.com/v2/animals?location=' + userLocation + '&limit=8' + '&type=' + type + '&breed=' + breed + '&gender=' + gender + '&page=' + page, {
       headers: {
         'Authorization': data.token_type + ' ' + data.access_token,
         'Content-Type': 'application/x-www-form-urlencoded'
@@ -322,6 +331,7 @@ function setMarker(address, titleText, htmlContent) {
         map: map,
         title: titleText
       });
+      markers.push(marker);
       marker.addListener('click', function () {
         infoWindow.setPosition(coords);
         infoWindow.setContent(htmlContent);
@@ -366,12 +376,28 @@ function getZip(callback) {
 }
 submit.addEventListener("click", function (e) {
   e.preventDefault();
+  if (markers.length > 0) {
+    for (i = 0; i < markers.length; i++) {
+      markers[i].setMap(null);
+      markers[i] = null;
+    }
+    markers = [];
+  }
   if (page > 1) {
     page = 1
     pageNumber()
   }
   state = $("#userState").val().trim().toUpperCase();
   zip = $("#userZipCode").val().trim()
+  
+  if (zip && state) { // move cursor based on user input
+    setMarker(state + ", " + zip, null, zip);
+  } else if (!zip && state) {
+    setMarker(state, null, state);
+  } else if (zip && !state){
+    setMarker(zip, null, zip);
+  }
+
   if (!zip && !state) {
     zip = userLocation
   } else if (!zip) {
