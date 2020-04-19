@@ -63,7 +63,8 @@ function initMap() {
 
 // retrieve google maps API key from firebase then load the map
 database.ref().once('value').then(function (snap) {
-  key = snap.val().gKey;
+  //key = snap.val().gKey;
+  key = 'AIzaSyAac0W1FcByS8ETCOwZ7_1UXuBbVR89lCc'
   var tag = 'https://maps.googleapis.com/maps/api/js?key=' + key + '&callback=initMap';
   var body = document.getElementById("main");
   var ele = document.createElement("script");
@@ -83,7 +84,8 @@ area.addEventListener("click", function () {
       };
       // retrieve api key then fetch geocode data
       database.ref().once('value').then(function (snap) {
-        var key = snap.val().gKey;
+        //var key = snap.val().gKey;
+        var key = 'AIzaSyAac0W1FcByS8ETCOwZ7_1UXuBbVR89lCc'
         var url = "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + pos.lat + "," + pos.lng + "&key=" + key;
         fetch(url).then((response) => {
           return response.json();
@@ -222,6 +224,12 @@ function getAnimals() {
     var results = data.animals.length
     //div.addClass('card')
     for (var i = 0; i < results; i++) {
+      var button = $("<button>")
+      button.attr('type', 'button')
+      button.attr('bookmark')
+      button.addClass("btn")
+      button.addClass("btn-dark")
+      button.text('Bookmark')
       //console.log(results[i]);
       var div = $("<div>");
       var nameDiv = $("<div>");
@@ -247,12 +255,17 @@ function getAnimals() {
       locDiv.append("Age:", " ", age + "<br>");
       div.append("Location:", " ", city, ", ", state + "<br>" + "<br>");
       disDiv.append("Distance:", " ", disRound + " ", "miles away");
+      div.append(button)
       }
     
     $(".card").click(function(){
        window.open($(this).attr("data-url"))
      })
-    
+     
+    $(".btn-dark").click(function(event){
+      event.stopPropagation()
+      alert("hi")
+    })
     
 
     console.log(results)
@@ -296,7 +309,8 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
 }
 function setMarker(address, titleText, htmlContent) {
   database.ref().once('value').then(function (snap) {
-    var key = snap.val().gKey;
+    //var key = snap.val().gKey;
+    var key = "AIzaSyAac0W1FcByS8ETCOwZ7_1UXuBbVR89lCc"
     var url = "https://maps.googleapis.com/maps/api/geocode/json?address=" + address + "&key=" + key;
     fetch(url).then(response => {
       return response.json();
@@ -327,7 +341,8 @@ function getZip(callback) {
       };
       // get user location based on coordinates
       database.ref().once('value').then(function (snap) {
-        var key = snap.val().gKey;
+       // var key = snap.val().gKey;
+       var key = 'AIzaSyAac0W1FcByS8ETCOwZ7_1UXuBbVR89lCc'
         var url = "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + pos.lat + "," + pos.lng + "&key=" + key;
         fetch(url).then(response => {
           return response.json();
