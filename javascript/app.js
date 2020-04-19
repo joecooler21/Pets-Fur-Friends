@@ -226,7 +226,6 @@ function getAnimals() {
     for (var i = 0; i < results; i++) {
       var button = $("<button>")
       button.attr('type', 'button')
-      button.attr('bookmark')
       button.addClass("btn")
       button.addClass("btn-dark")
       button.text('Bookmark')
@@ -238,6 +237,8 @@ function getAnimals() {
       var disDiv = $("<div>")
       nameDiv.addClass('card-info');
       div.addClass('card');
+      var refId = data.animals[i].id
+      button.attr('bookmark', refId)
       var name = data.animals[i].name;
       var age = data.animals[i].age;
       var city = data.animals[i].contact.address.city
@@ -264,7 +265,7 @@ function getAnimals() {
      
     $(".btn-dark").click(function(event){
       event.stopPropagation()
-      alert("hi")
+      alert($(this).attr('bookmark'))
     })
     
 
