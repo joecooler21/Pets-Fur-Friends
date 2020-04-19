@@ -60,6 +60,11 @@ footer {
     display: block;
     background-color: #78C2AD;
     color: #ffffff;
+    max-width: 100em;
+    margin-left: auto;
+    margin-right: auto;
+
+    
 }
 
 body {
@@ -68,12 +73,13 @@ body {
     font-size: 1rem;
     font-weight: 300;
     line-height: 1.5;
-    color: #888;
+    color: #343a40;
     text-align: left;
     background-image: url("../images/dog_and_cat_pattern-08.jpg");
     background-position: center;
     background-repeat: repeat;
     background-size: 500px;
+    background-attachment: fixed;
 }
 
 [tabindex="-1"]:focus {
@@ -229,7 +235,7 @@ table {
 caption {
     padding-top: .75rem;
     padding-bottom: .75rem;
-    color: #888;
+    color: #343a40;
     text-align: left;
     caption-side: bottom
 }
@@ -504,7 +510,7 @@ mark {
 .blockquote-footer {
     display: block;
     font-size: 80%;
-    color: #888
+    color: #343a40
 }
 
 .blockquote-footer::before {
@@ -536,7 +542,7 @@ mark {
 
 .figure-caption {
     font-size: 90%;
-    color: #888
+    color: #343a40
 }
 
 code {
@@ -1605,7 +1611,7 @@ pre code {
 .table {
     width: 100%;
     margin-bottom: 1rem;
-    color: #888
+    color: #343a40
 }
 
 .table td,
@@ -1655,7 +1661,7 @@ pre code {
 }
 
 .table-hover tbody tr:hover {
-    color: #888;
+    color: #343a40;
     background-color: rgba(0, 0, 0, .075)
 }
 
@@ -1960,7 +1966,7 @@ pre code {
     color: #5a5a5a;
     background-color: #fff;
     background-clip: padding-box;
-    border: 1px solid #ced4da;
+    border: 2px solid #78c2ad;
     border-radius: .4rem;
     transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out
 }
@@ -1985,7 +1991,7 @@ pre code {
 }
 
 .form-control::placeholder {
-    color: #888;
+    color: #343a40;
     opacity: 1
 }
 
@@ -2482,7 +2488,7 @@ textarea.form-control.is-invalid {
 .btn {
     display: inline-block;
     font-weight: 400;
-    color: #888;
+    color: #343a40;
     text-align: center;
     vertical-align: middle;
     user-select: none;
@@ -2502,7 +2508,7 @@ textarea.form-control.is-invalid {
 }
 
 .btn:hover {
-    color: #888;
+    color: #343a40;
     text-decoration: none
 }
 
@@ -2525,13 +2531,14 @@ fieldset:disabled a.btn {
 .btn-primary {
     color: #fff;
     background-color: #78c2ad;
-    border-color: #78c2ad
+    border-color: #78c2ad;
+    font-weight: bold;
 }
 
 .btn-primary:hover {
     color: #fff;
-    background-color: #5eb69d;
-    border-color: #55b298
+    background-color: #f3969a;
+    border-color: #f3969a
 }
 
 .btn-primary.focus,
@@ -2563,7 +2570,8 @@ fieldset:disabled a.btn {
 .btn-secondary {
     color: #fff;
     background-color: #f3969a;
-    border-color: #f3969a
+    border-color: #f3969a;
+    font-weight: bold;
 }
 
 .btn-secondary:hover {
@@ -4989,8 +4997,10 @@ input[type=submit].btn-block {
     margin-left: -1px;
     line-height: 1.25;
     color: #fff;
+    font-weight: bold;
     background-color: #78c2ad;
-    border: 1px solid #78c2ad
+    border: 2px solid #78c2ad;
+
 }
 
 .page-link:hover {
@@ -4998,7 +5008,8 @@ input[type=submit].btn-block {
     color: #fff;
     text-decoration: none;
     background-color: #f3969a;
-    border-color: #f3969a
+    border-color: #f3969a;
+    cursor: pointer;
 }
 
 .page-link:focus {
