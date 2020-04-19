@@ -16,6 +16,8 @@ var pics = $("#pics");
 var orgs = []
 var pets = []
 var zip = ''
+var distance = 100
+
 var totalPages = ''
 var config = {
 
@@ -204,7 +206,7 @@ function getAnimals() {
     return resp.json();
   }).then(function (data) {
     // makes api call with search parameters
-    return fetch('https://api.petfinder.com/v2/animals?location=' + userLocation + '&limit=9' + '&type=' + type + '&breed=' + breed + '&gender=' + gender + '&page=' + page, {
+    return fetch('https://api.petfinder.com/v2/animals?location=' + userLocation + '&distance=' + distance + '&limit=9' + '&type=' + type + '&breed=' + breed + '&gender=' + gender + '&page=' + page, {
       headers: {
         'Authorization': data.token_type + ' ' + data.access_token,
         'Content-Type': 'application/x-www-form-urlencoded'
@@ -227,7 +229,7 @@ function getAnimals() {
       var button = $("<button>")
       button.attr('type', 'button')
       button.addClass("btn")
-      button.addClass("btn-dark")
+      button.addClass("bookmark")
       button.text('Bookmark')
       //console.log(results[i]);
       var div = $("<div>");
@@ -238,13 +240,19 @@ function getAnimals() {
       nameDiv.addClass('card-info');
       div.addClass('card');
       var refId = data.animals[i].id
+      var url = data.animals[i].url
+      console.log(url)
+      console.log(refId)
       button.attr('bookmark', refId)
+      button.attr('data-state', 'add')
+      button.attr('idk', url)
       var name = data.animals[i].name;
       var age = data.animals[i].age;
       var city = data.animals[i].contact.address.city
       var state = data.animals[i].contact.address.state
       var distance = data.animals[i].distance
       var picturetag = (data.animals[i].photos[0]?.large || "images/d6e35b19-3dee-41b3-b052-4e7e9db58292_200x200.png");
+      button.attr('src', picturetag)
       var disRound = Math.round(distance);
       div.append("<br>" + name + "<br>");
       div.append('<img src="' + picturetag + '"/>' + "<br>" + "<br>");
@@ -263,11 +271,35 @@ function getAnimals() {
        window.open($(this).attr("data-url"))
      })
      
-    $(".btn-dark").click(function(event){
+    $(".bookmark").click(function(event){
       event.stopPropagation()
-      alert($(this).attr('bookmark'))
+      $(".carousel").show()
+      var url = $(this).attr('idk')
+      var toggle = $(this).attr('data-state')
+      var img = $("<img>")
+      var carouselDiv = $("<div>")
+      if (toggle === 'add'){
+      $(this).text('Remove')
+      carouselDiv.addClass("carousel-item")
+      img.attr('src', $(this).attr('src'))
+      img.attr('data-url', url)
+      img.addClass('d-block')
+      img.addClass('w-100')
+      img.addClass('car-image')
+      carouselDiv.append(img)
+      $(".carousel-inner").append(carouselDiv)
+      $("#carouselExampleControls").carousel(1)
+      $(this).attr('data-state', 'remove')
+      }else{
+        $(this).text('Bookmark')
+        $(this).attr('data-state', 'add')
+      }
+      $(document).on('click', '.car-image', function(){
+        window.open($(this).attr("data-url"))
+      })
+
     })
-    
+   
 
     console.log(results)
   }).catch(function (err) {
@@ -386,6 +418,7 @@ submit.addEventListener("click", function (e) {
   type = $("#userAnimal").val().trim()
   breed = $("#userBreed").val().trim()
   gender = $("#userGender").val()
+  distance = parseInt($("#userDist").val())
   pics.html("")
   loading();
   getAnimals();
@@ -407,6 +440,11 @@ function loading() {
   loading.append(dogAnimation)
 }
 
+function carouselHide(){
+  $(".carousel").hide()
+}
+
 loading()
 pageNumber();
 getZip()
+carouselHide()
