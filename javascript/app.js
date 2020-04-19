@@ -34,7 +34,10 @@ var database = firebase.database();
 function initMap() {
   map = new google.maps.Map(document.getElementById('map'), {
     center: { lat: -34.397, lng: 150.644 },
-    zoom: 6
+    zoom: 6,
+    zoomControl: false,
+    fullscreenControl: false,
+    streetViewControl: false
   });
   infoWindow = new google.maps.InfoWindow;
   // Try HTML5 geolocation.
@@ -44,9 +47,6 @@ function initMap() {
         lat: position.coords.latitude,
         lng: position.coords.longitude
       };
-      /* infoWindow.setPosition(pos);
-      infoWindow.setContent('Location found.');
-      infoWindow.open(map); */
       map.setCenter(pos);
       var marker = new google.maps.Marker({
         position: pos,
@@ -65,8 +65,7 @@ function initMap() {
 
 // retrieve google maps API key from firebase then load the map
 database.ref().once('value').then(function (snap) {
-  //key = snap.val().gKey;
-  key = 'AIzaSyAac0W1FcByS8ETCOwZ7_1UXuBbVR89lCc'
+  key = snap.val().gKey;
   var tag = 'https://maps.googleapis.com/maps/api/js?key=' + key + '&callback=initMap';
   var body = document.getElementById("main");
   var ele = document.createElement("script");
@@ -93,8 +92,7 @@ area.addEventListener("click", function () {
       };
       // retrieve api key then fetch geocode data
       database.ref().once('value').then(function (snap) {
-        //var key = snap.val().gKey;
-        var key = 'AIzaSyAac0W1FcByS8ETCOwZ7_1UXuBbVR89lCc'
+        key = snap.val().gKey;
         var url = "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + pos.lat + "," + pos.lng + "&key=" + key;
         fetch(url).then((response) => {
           return response.json();
@@ -120,7 +118,6 @@ area.addEventListener("click", function () {
                     addr = orgs[i].address.address1 + ", " + orgs[i].address.postcode;
                   }
                   // good to go to set a Marker on the map
-                  console.log(addr);
 
                   var infoText = "Name: " + orgs[i].name;
                   let name = orgs[i].name;
@@ -148,7 +145,7 @@ area.addEventListener("click", function () {
                   var infoText = "Name: " + name;
                   setMarker(addr, infoText,
 
-                    '<div id="info-name">' + name + '</div>' + '<div>Address: ' + address + '</div>' + '<div>Website: ' + website + '</div>' + '<hr>' + '<span>Phone: ' + phone + '</span>' + '<div>E-mail: ' + '<a href="mailto:' + email + '?Subject=Hello%20again" target="_top">' + email + '</a>');
+                    '<div id="info-name">' + name + '</div>' + '<hr>' +  '<div>Address: ' + address + '</div>' + '<div>Website: ' + website + '</div>' + '<span>Phone: ' + phone + '</span>' + '<div>E-mail: ' + '<a href="mailto:' + email + '?Subject=" target="_top">' + email + '</a>');
 
                 }
                 clearInterval(int); // clear the timer and proceed
@@ -160,9 +157,6 @@ area.addEventListener("click", function () {
     });
 
   }
-  // call getOrg so it can fill the global 'orgs' array with organization data
-  // iterate through orgs array and set markers on the map for each one
-  // the problem here is that 'orgs' is still an empty array at this point, since getOrg() hasn't fully finished setting the data
 });
 async function getOrg() {
   fetch('https://api.petfinder.com/v2/oauth2/token', {
@@ -173,12 +167,10 @@ async function getOrg() {
     }
   }).then(function (resp) {
     // Return the response as JSON
-    console.log("step 1 returning json");
     orgs = resp.json();
     return orgs;
   }).then(function (data) {
     // console logs token as json, then the api call happens
-    console.log("step 2 returning token data");
     console.log('token', data)
     return fetch('https://api.petfinder.com/v2/organizations?location=' + userLocation, {
       headers: {
@@ -188,11 +180,9 @@ async function getOrg() {
     });
   }).then(function (resp) {
     // Return the API response as JSON and sets orgs to the response, returns it
-    console.log("step 3 returning response");
     return (resp.json());
   }).then(function (data) {
     // Log the pet data
-    console.log("step 4 we have our data now");
     orgs = data.organizations;
     console.log('orgs', data);
   }).catch(function (err) {
@@ -318,8 +308,7 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
 }
 function setMarker(address, titleText, htmlContent) {
   database.ref().once('value').then(function (snap) {
-    //var key = snap.val().gKey;
-    var key = "AIzaSyAac0W1FcByS8ETCOwZ7_1UXuBbVR89lCc"
+    key = snap.val().gKey;
     var url = "https://maps.googleapis.com/maps/api/geocode/json?address=" + address + "&key=" + key;
     fetch(url).then(response => {
       return response.json();
@@ -351,8 +340,7 @@ function getZip(callback) {
       };
       // get user location based on coordinates
       database.ref().once('value').then(function (snap) {
-       // var key = snap.val().gKey;
-       var key = 'AIzaSyAac0W1FcByS8ETCOwZ7_1UXuBbVR89lCc'
+       snap.val().gKey;
         var url = "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + pos.lat + "," + pos.lng + "&key=" + key;
         fetch(url).then(response => {
           return response.json();
