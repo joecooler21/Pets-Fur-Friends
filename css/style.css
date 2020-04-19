@@ -161,7 +161,8 @@ img {
 }
 
 .card-info {
-    font-size: 20px;
+    display: block;
+    font-size: 6px;
     color: #888;
 }
 
@@ -184,4 +185,8 @@ img {
     width: 200px;
     height: 200px;
     border-style: none;
+}
+
+.btn-dark{
+    margin-bottom: 10px;
 }
