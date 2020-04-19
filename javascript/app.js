@@ -65,8 +65,7 @@ function initMap() {
 
 // retrieve google maps API key from firebase then load the map
 database.ref().once('value').then(function (snap) {
-  //key = snap.val().gKey;
-  key = 'AIzaSyAac0W1FcByS8ETCOwZ7_1UXuBbVR89lCc'
+  key = snap.val().gKey;
   var tag = 'https://maps.googleapis.com/maps/api/js?key=' + key + '&callback=initMap';
   var body = document.getElementById("main");
   var ele = document.createElement("script");
@@ -86,14 +85,12 @@ area.addEventListener("click", function () {
       };
       // retrieve api key then fetch geocode data
       database.ref().once('value').then(function (snap) {
-        //var key = snap.val().gKey;
-        var key = 'AIzaSyAac0W1FcByS8ETCOwZ7_1UXuBbVR89lCc'
+        var key = snap.val().gKey;
         var url = "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + pos.lat + "," + pos.lng + "&key=" + key;
         fetch(url).then((response) => {
           return response.json();
         })
           .then((data) => {
-            //city = data.results[0].address_components[6].long_name;
             var componentLength = data.results[0].address_components.length
             for (var i = 0; i < componentLength; i++) {
               if (data.results[0].address_components[i].long_name.length === 5) {
@@ -342,8 +339,7 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
 }
 function setMarker(address, titleText, htmlContent) {
   database.ref().once('value').then(function (snap) {
-    //var key = snap.val().gKey;
-    var key = "AIzaSyAac0W1FcByS8ETCOwZ7_1UXuBbVR89lCc"
+    var key = snap.val().gKey;
     var url = "https://maps.googleapis.com/maps/api/geocode/json?address=" + address + "&key=" + key;
     fetch(url).then(response => {
       return response.json();
@@ -374,8 +370,7 @@ function getZip(callback) {
       };
       // get user location based on coordinates
       database.ref().once('value').then(function (snap) {
-       // var key = snap.val().gKey;
-       var key = 'AIzaSyAac0W1FcByS8ETCOwZ7_1UXuBbVR89lCc'
+       var key = snap.val().gKey;
         var url = "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + pos.lat + "," + pos.lng + "&key=" + key;
         fetch(url).then(response => {
           return response.json();
