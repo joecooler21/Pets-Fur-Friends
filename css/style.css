@@ -1,3 +1,5 @@
+/* JUMBOTRON */
+
 .jumbotron {
     justify-content: center;
     background-color: #78c2ad;
@@ -12,6 +14,16 @@
     color: #ffffff;
 }
 
+#jumboH1 {
+    background-color: #78c2ad;
+}
+
+#jumboP {
+    font-style: italic;
+}
+
+/* MAIN CONTAINER */
+
 #mainCont {
   background-color: #ffffff;
   padding-top: 20px;
@@ -20,22 +32,6 @@
   padding-left: 60px;
   max-width: 100em;
   width: 100%;
-}
-
-#img-Container {
-background-color: #ffffff;
-margin-left: auto;
-margin-right: auto;
-max-width: 100em;
-width: 100%;
-}
-
-#loading {
-background-color: #ffffff;
-margin-left: auto;
-margin-right: auto;
-max-width: 100em;
-width: 100%;
 }
 
 #map-area {
@@ -55,16 +51,39 @@ width: 100%;
     border-width: 4px;
 }
 
-#img-container {
-    
+#userLocation {
+    background-color: #ffffff;
+    color: #5a5a5a;
+    font-weight: 400;
+    font-size: 25px;
+}
+
+#userGender{
+    margin-left: 0;
+}
+
+/* IMAGE CONTAINER */
+
+#img-Container {
     background-color: #ffffff;
     margin-left: auto;
     margin-right: auto;
     max-width: 100em;
     width: 100%;
-    
 }
 
+img {
+    margin-top: 40px;
+    object-fit: cover;
+    object-position: 100% 0;
+    width: 250px;
+    height: 250px;
+    border-radius: 4px;
+    border-style: solid;
+    border-width: 2px;
+    border-color: #78c2ad;
+}
+  
 #pics {
     justify-content: center;
     margin:80px;
@@ -74,7 +93,6 @@ width: 100%;
     margin-right: auto;
     max-width: 100em;
     width: 100%;
-
 }
 
 #page {
@@ -85,48 +103,10 @@ width: 100%;
     font-weight: bold;
 }
 
-img {
-  margin-top: 40px;
-  object-fit: cover;
-  object-position: 100% 0;
-  width: 250px;
-  height: 250px;
-  border-radius: 4px;
-  border-style: solid;
-  border-width: 2px;
-  border-color: #78c2ad;
-}
-
-.footer {
-    display: block;
-    background-color: #56CC9D;
-    color: #ffffff;
-    font-weight: bold;
-    margin-top: 5px;
-    max-width: 100em;
-    margin-left: auto;
-    margin-right: auto;
-}
-
 #pagButtons {
     justify-content: center;
     display: flex;
     color: #ffffff;
-}
-
-#userLocation {
-    background-color: #ffffff;
-    color: #5a5a5a;
-    font-weight: 400;
-    font-size: 25px;
-}
-
-#jumboH1 {
-    background-color: #78c2ad;
-}
-
-#userGender{
-    margin-left: 0;
 }
 
 .page-number {
@@ -145,9 +125,14 @@ img {
     color: #888;
     font-size: 50px;
     background-color: #ffffff;
-    padding-top: 200px;
-
+    padding-top: 200px;   
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 100em;
+    width: 100%;
 }
+
+/* IMAGE CARDS */
 
 .card {
     display: inline-table;
@@ -166,20 +151,21 @@ img {
     color: #888;
 }
 
-#info-name {
-    font-weight: bold;
-}
-
 .card:hover {
     transform: scale(1.15);
     box-shadow: 5px 5px 15px rgba(0,0,0,0.6);
-  }
-  .card {
+}
+  
+.card {
 
     transition: 0.5s ease;
     cursor: pointer;
     margin:30px;
-  }
+}
+
+#info-name {
+    font-weight: bold;
+}
 
 .yo {
     width: 200px;
@@ -195,30 +181,45 @@ img {
     margin-bottom: 10px;
 }
 
+/* CAROUSEL CONTAINER */
+
 .carousel {
     /* any dimensions are fine, it can be responsive with max-width */
     width: 500px;
     height: 300px;
     margin: 0 auto;
-  }
+}
   
-  .carousel-inner {
+.carousel-inner {
     /* make sure your .items will get correct height */
     height: 150%;
-  }
-  
-  .item {
+}
+
+.item {
     margin-top: 20px;
     background-size: cover;
     background-position: 50% 50%;
     width: 100%;
     height: 100%;
-  }
+}
   
-  .item img {
+.item img {
     visibility: hidden;
-  }
+}
 
 .carousel-control-prev-icon, .carousel-control-next-icon{
     filter: invert(1);
+}
+
+/* FOOTER */
+
+.footer {
+    display: block;
+    background-color: #56CC9D;
+    color: #ffffff;
+    font-weight: bold;
+    margin-top: 5px;
+    max-width: 100em;
+    margin-left: auto;
+    margin-right: auto;
 }
