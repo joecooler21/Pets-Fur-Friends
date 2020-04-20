@@ -112,7 +112,6 @@ img {
 
 }
 
-
 #pics {
     justify-content: center;
     margin:80px;
@@ -176,7 +175,7 @@ img {
     height: 100%;
 }
   
-  .item img {
+.item img {
     visibility: hidden;
 }
 
