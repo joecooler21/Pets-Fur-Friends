@@ -10,19 +10,19 @@
     margin-right: auto;
 }
 
-.jumbotron h1 {
-    color: #ffffff;
-}
-
 #jumboH1 {
     background-color: #78c2ad;
+}
+
+.jumbotron h1 {
+    color: #ffffff;
 }
 
 #jumboP {
     font-style: italic;
 }
 
-/* MAIN CONTAINER */
+/* MAIN CONTAINER FOR INPUT FORMS / MAP */
 
 #mainCont {
   background-color: #ffffff;
@@ -58,18 +58,27 @@
     font-size: 25px;
 }
 
-#userGender{
+#userGender {
     margin-left: 0;
 }
 
-/* IMAGE CONTAINER */
+/* CONTAINER FOR IMAGE CARDS / LOADING SCREEN */
 
-#img-Container {
+#img-container {
     background-color: #ffffff;
     margin-left: auto;
     margin-right: auto;
     max-width: 100em;
     width: 100%;
+}
+
+#img-container {
+    background-color: #ffffff;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 100em;
+    width: 100%;
+    
 }
 
 img {
@@ -84,6 +93,26 @@ img {
     border-color: #78c2ad;
 }
   
+    
+#loading {
+    background-color: #ffffff;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 100em;
+    width: 100%;
+}
+
+#loading {
+    display: flex;
+    justify-content: center;
+    color: #888;
+    font-size: 50px;
+    background-color: #ffffff;
+    padding-top: 200px;
+
+}
+
+
 #pics {
     justify-content: center;
     margin:80px;
@@ -93,6 +122,7 @@ img {
     margin-right: auto;
     max-width: 100em;
     width: 100%;
+
 }
 
 #page {
@@ -119,17 +149,35 @@ img {
     text-align: center;
 }
 
-#loading {
-    display: flex;
-    justify-content: center;
-    color: #888;
-    font-size: 50px;
-    background-color: #ffffff;
-    padding-top: 200px;   
-    margin-left: auto;
-    margin-right: auto;
-    max-width: 100em;
+/* CAROUSEL */
+
+.carousel {
+    /* any dimensions are fine, it can be responsive with max-width */
+    width: 500px;
+    height: 300px;
+    margin: 0 auto;
+}
+  
+.carousel-inner {
+    /* make sure your .items will get correct height */
+    height: 150%;
+}
+
+.carousel-control-prev-icon, .carousel-control-next-icon {
+    filter: invert(1);
+}
+
+  
+.item {
+    margin-top: 20px;
+    background-size: cover;
+    background-position: 50% 50%;
     width: 100%;
+    height: 100%;
+}
+  
+  .item img {
+    visibility: hidden;
 }
 
 /* IMAGE CARDS */
@@ -154,8 +202,8 @@ img {
 .card:hover {
     transform: scale(1.15);
     box-shadow: 5px 5px 15px rgba(0,0,0,0.6);
-}
-  
+  }
+
 .card {
 
     transition: 0.5s ease;
@@ -166,6 +214,7 @@ img {
 #info-name {
     font-weight: bold;
 }
+
 
 .yo {
     width: 200px;
@@ -179,36 +228,6 @@ img {
     border-color: #78c2ad;
     font-weight: bold;
     margin-bottom: 10px;
-}
-
-/* CAROUSEL CONTAINER */
-
-.carousel {
-    /* any dimensions are fine, it can be responsive with max-width */
-    width: 500px;
-    height: 300px;
-    margin: 0 auto;
-}
-  
-.carousel-inner {
-    /* make sure your .items will get correct height */
-    height: 150%;
-}
-
-.item {
-    margin-top: 20px;
-    background-size: cover;
-    background-position: 50% 50%;
-    width: 100%;
-    height: 100%;
-}
-  
-.item img {
-    visibility: hidden;
-}
-
-.carousel-control-prev-icon, .carousel-control-next-icon{
-    filter: invert(1);
 }
 
 /* FOOTER */
