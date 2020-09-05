@@ -222,14 +222,12 @@ function getAnimals() {
     console.log('pets', data);
     pics.html("")
     var results = data.animals.length
-    //div.addClass('card')
     for (var i = 0; i < results; i++) {
       var button = $("<button>")
       button.attr('type', 'button')
       button.addClass("btn")
       button.addClass("bookmark")
       button.text('Bookmark')
-      //console.log(results[i]);
       var div = $("<div>");
       var nameDiv = $("<div>");
       var ageDiv = $("<div>")
@@ -262,14 +260,14 @@ function getAnimals() {
       locDiv.append("Age:", " ", age + "<br>");
       div.append("Location:", " ", city, ", ", state + "<br>" + "<br>");
       disDiv.append("Distance:", " ", disRound + " ", "miles away");
-      div.append(button)
+      /* div.append(button) */
       }
     
     $(".card").click(function(){
        window.open($(this).attr("data-url"))
      })
      
-    $(".bookmark").click(function(event){
+    /* $(".bookmark").click(function(event){
       event.stopPropagation()
       $(".carousel").show()
       var url = $(this).attr('idk')
@@ -296,7 +294,7 @@ function getAnimals() {
         window.open($(this).attr("data-url"))
       })
 
-    })
+    }) */
    
 
     console.log(results)
@@ -428,7 +426,6 @@ submit.addEventListener("click", function (e) {
   } else {
     userLocation = zip + ',' + ' ' + state
   }
-  alert(userLocation)
   type = $("#userAnimal").val().trim()
   breed = $("#userBreed").val().trim()
   gender = $("#userGender").val()
